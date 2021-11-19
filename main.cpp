@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "Scanner.h"
+#include "Lexer.h"
 
 using namespace std;
 using namespace COMP;
@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
 	filebuf fb;
 	fb.open(string(argv[1]), ios::in);
 	istream in(&fb);
-	Scanner lexer(&in);
+	Lexer lexer(&in);
 	int token = lexer.yylex();
 
 	while(token != 0){

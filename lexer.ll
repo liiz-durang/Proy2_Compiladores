@@ -4,13 +4,13 @@
 	using namespace std;
 	#include "Tokens.h"
 
-	#include "Scanner.h"
+	#include "Lexer.h"
 
 %}
 
 %option c++
-%option outfile = "Scanner.cpp"
-%option yyclass = "COMP::Scanner"
+%option outfile = "Lexer.cpp"
+%option yyclass = "COMP::Lexer"
 %option case-insensitive
 %option noyywrap
 
@@ -21,7 +21,7 @@ DOUBLE ([0-9])*.([0-9])+([Ee]([+-])?([0-9])+)?[dD]?
 ID [a-zA-Z][A-Za-z0-9_]*
 ESP [ \t\n\r]+
 CADENA  \"([\x20-\x21\x23-\xFE])*\”
-CARACTER \’[\x20-\x21\x23-\xFE \t\n\r]\’
+CARACTER \'[\x20-\x21\x23-\xFE \t\n\r]\'
 
 %%
 "char"		{return CHAR;}
@@ -36,19 +36,20 @@ CARACTER \’[\x20-\x21\x23-\xFE \t\n\r]\’
 "while"		{return WHILE;}
 "do"		{return DO;}
 "print"		{return PRINT;}
-"scan"		{RETURN SCAN;}
+"scan"		{return SCAN;}
 "break"		{return BREAK;}
 "return"	{return RETURN;}
 
 "{"			{return LKEY;}
 "}" 		{return RKEY;}
-"(" 		{return lpar;}
-")" 		{return rpar;}
+"(" 		{return LPAR;}
+")" 		{return RPAR;}
 "+"			{return MAS;}
 "-"			{return MENOS;}
 "*"			{return MUL;}
 "/"			{return DIV;}
-"&&" 		{return OR;}
+"||"		{return OR;}
+"&&" 		{return AND;}
 "<" 		{return MENQ;}
 ">" 		{return MAYQ;}
 "=="		{return IGUAL;}
@@ -69,7 +70,7 @@ CARACTER \’[\x20-\x21\x23-\xFE \t\n\r]\’
 {ID}		{return ID;}
 
 {CADENA} 	{return CADENA;}
-{CARACTER}	{return CARACTER;}
+{CARACTER}	{return CHAR;}
 
 
 .		{cout<<"ERROR LEXICO " << yytext << endl;}
