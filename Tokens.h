@@ -27,25 +27,27 @@ namespace COMP{
     const int MENOS     = 20;
     const int MUL       = 21;
     const int DIV       = 22;
-    const int OR        = 23;
-    const int MENQ      = 24;
-    const int MAYQ      = 25;
-    const int IGUAL     = 26;
-    const int DIF       = 27;
-    const int MENI      = 28;
-    const int MAYI      = 29;
-    const int ASIG      = 30;
+    const int AND       = 23;
+    const int OR        = 24;
+    const int NOT       = 25;
+    const int MENOR     = 26;
+    const int MAYOR     = 27;
+    const int IGUAL     = 28;
+    const int DIF       = 29;
+    const int MENORI    = 30;
+    const int MAYORI    = 31;
+    const int ASIG      = 32;
 
-    const int PYC       = 31;
-    const int COMA      = 32;
-    const int PUNTO     = 33;
+    const int PYC       = 33;
+    const int COMA      = 34;
+    const int PUNTO     = 35;
 
-    const int ESP       = 34;
+    const int ESP       = 36;
 
-    const int NUMERO    = 35; //Entero o flotante o double
-    const int ID        = 36; 
+    const int NUMERO    = 37; //Entero o flotante o double
 
-    const int CADENA    = 37; //cadena o caracter
+    const int ID        = 38; 
 
+    const int CADENA    = 39; //cadena o caracter
 }
 #endif

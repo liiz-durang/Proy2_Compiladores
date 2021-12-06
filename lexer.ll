@@ -19,7 +19,7 @@ ENTERO [0-9]+
 FLOTANTE ([0-9])*.([0-9])+([Ee]([+-])?([0-9])+)?[fF]
 DOUBLE ([0-9])*.([0-9])+([Ee]([+-])?([0-9])+)?[dD]?
 ID [a-zA-Z][A-Za-z0-9_]*
-ESP [ \t\n\r]+
+ESP [ \t\n\r]
 CADENA  \"([\x20-\x21\x23-\xFE])*\”
 CARACTER \’[\x20-\x21\x23-\xFE \t\n\r]\’
 
@@ -48,13 +48,15 @@ CARACTER \’[\x20-\x21\x23-\xFE \t\n\r]\’
 "-"			{return MENOS;}
 "*"			{return MUL;}
 "/"			{return DIV;}
-"&&" 		{return OR;}
-"<" 		{return MENQ;}
-">" 		{return MAYQ;}
+"||" 		{return OR;}
+"&&"        {return AND;}
+"!" 		{return NOT;}
+"<" 		{return MENOR;}
+">" 		{return MAYOR;}
 "=="		{return IGUAL;}
 "!="		{return DIF;}
-"<=" 		{return MENI;}
-">=" 		{return MAYI;}
+"<=" 		{return MENORI;}
+">=" 		{return MAYORI;}
 "="			{return ASIG;}
 
 ";"			{return PYC;}
@@ -75,3 +77,7 @@ CARACTER \’[\x20-\x21\x23-\xFE \t\n\r]\’
 .		{cout<<"ERROR LEXICO " << yytext << endl;}
 
 %%
+
+int yyFlexLexer::yywrap(){
+	return 1;
+}
