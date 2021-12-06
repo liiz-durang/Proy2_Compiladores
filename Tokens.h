@@ -48,6 +48,7 @@ namespace COMP{
 
     const int ID        = 38; 
 
-    const int CADENA    = 39; //cadena o caracter
+    const int CADENA    = 39; 
+    const int CARACTER  = 40; 
 }
 #endif

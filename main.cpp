@@ -19,7 +19,7 @@ int main(int argc, char *argv[]){
 	int token = lexer.yylex();
 
 	while(token != 0){
-		cout<<token <<","<< lexer.YYText()<<endl;
+		cout<<token <<" , "<< lexer.YYText()<<endl;
 		token = lexer.yylex();
 	}
 	fb.close();

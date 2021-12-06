@@ -20,8 +20,8 @@ FLOTANTE ([0-9])*.([0-9])+([Ee]([+-])?([0-9])+)?[fF]
 DOUBLE ([0-9])*.([0-9])+([Ee]([+-])?([0-9])+)?[dD]?
 ID [a-zA-Z][A-Za-z0-9_]*
 ESP [ \t\n\r]
-CADENA  \"([\x20-\x21\x23-\xFE])*\”
-CARACTER \’[\x20-\x21\x23-\xFE \t\n\r]\’
+CADENA  \"([\x20-\x21\x23-\xFE])*\"
+CARACTER \"([\x20-\x21\x23-\xFE \t\n\r])\"
 
 %%
 "char"		{return CHAR;}
@@ -36,14 +36,14 @@ CARACTER \’[\x20-\x21\x23-\xFE \t\n\r]\’
 "while"		{return WHILE;}
 "do"		{return DO;}
 "print"		{return PRINT;}
-"scan"		{RETURN SCAN;}
+"scan"		{return SCAN;}
 "break"		{return BREAK;}
 "return"	{return RETURN;}
 
 "{"			{return LKEY;}
 "}" 		{return RKEY;}
-"(" 		{return lpar;}
-")" 		{return rpar;}
+"(" 		{return LPAR;}
+")" 		{return RPAR;}
 "+"			{return MAS;}
 "-"			{return MENOS;}
 "*"			{return MUL;}
@@ -78,6 +78,3 @@ CARACTER \’[\x20-\x21\x23-\xFE \t\n\r]\’
 
 %%
 
-int yyFlexLexer::yywrap(){
-	return 1;
-}
