@@ -8,6 +8,7 @@ Compilador para lenguaje C-- Versión 0.
 * Parada Pérez Jesús Bryan 
 
 ## Ejecución:
+Analizador Léxico
 ```shell
 $ flex lexer.ll
 $ g++ main.cpp Scanner.cpp -o lexer
