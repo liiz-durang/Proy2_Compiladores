@@ -21,7 +21,7 @@ DOUBLE ([0-9])*.([0-9])+([Ee]([+-])?([0-9])+)?[dD]?
 ID [a-zA-Z][A-Za-z0-9_]*
 ESP [ \t\n\r]
 CADENA  \"([\x20-\x21\x23-\xFE])*\"
-CARACTER \"([\x20-\x21\x23-\xFE \t\n\r])\"
+CARACTER \'([\x20-\x21\x23-\xFE \t\n\r])\'
 
 %%
 "char"		{return CHAR;}

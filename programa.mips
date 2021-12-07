@@ -1,0 +1,12 @@
+//Cargar  flotante
+    .data 
+cteFloat1: .float 3.2 //cte
+a: .float 0.0 //var
+
+    .text
+la $t0, cteFloat1
+l.s $f0, ($t0)
+
+la $t0, a
+l.s $f0, ($t0)
+s.s $f0, b 

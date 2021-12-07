@@ -1,7 +1,13 @@
+/**
+ * Análisis Léxico
+ * 
+ **/
+
 #ifndef __SCANNER_HPP__
 #define __SCANNER_HPP__ 1
 
 #if !defined(yyFlexLexerOnce)
+
 #include <FlexLexer.h>
 #endif
 
