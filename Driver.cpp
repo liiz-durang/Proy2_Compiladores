@@ -11,7 +11,7 @@ Driver::Driver(){
     tt = TiposTabla();
 
     //Pila de tablas de simbolos 
-    pilaTs = PilaTS() ;
+    pilaTs = Pila() ;
 
     //Tabla de cadenas 
     map <std::string, std::string> tString; 
@@ -44,7 +44,7 @@ Driver::Driver(){
 
 void Driver::crear_ambito(){
     SimbolosTabla *ts = new SimbolosTabla();
-    pilaTs.push(*ts);
+    pilaTs.push(ts);
     pilaDir.push(dir);
     dir = 0;
     pilaTemporales.push(numeroTemporal);
@@ -52,7 +52,7 @@ void Driver::crear_ambito(){
 }
 
 void Driver::destruir_ambito(){
-    pilaTs.back().pop();
+    pilaTs.pop();
 }
 
 //pendiente
@@ -66,38 +66,47 @@ void Driver::_goto(string label){
 }
 
 
- //Agregar Tipo struct
-void Driver::agregar_tipo(std::string nombre, SimbolosTabla *tipo_base){
-    this->tt.addTipo(idTipo++ , nombre ,tipo_base);
+/*
+* Función para agregar tipo de estructura
+* a la tabla de tipos
+* @param name nombre del tipo por lo general struct 
+* @param tabSimbStruct referencia a la tabla de símbolos de la estructura
+*/
+void Driver::agregar_tipo(string nombre, SimbolosTabla *tSimStruct){
+    tt.addTipo(idTipo++ , nombre ,tSimStruct);
 }
 
- //Agregar Tipo base
-void Driver::agregar_tipo(std::string nombre, int tam_bytes){
-    this->tt.addTipo(idTipo++ , nombre, tam_bytes);
+/*
+* Función para agregar un tipo nativo a 
+* la tabla de tipos
+* @param name nombre del tipo por lo general struct 
+* @param tabSimbStruct referencia a la tabla de símbolos de la estructura
+*/
+void Driver::agregar_tipo(string nombre, int tam_bytes){
+    tt.addTipo(idTipo++ , nombre, tam_bytes);
 }
 
 //Agregar simbolo para variable a tabla simbolos
-void Driver::agregar_simbolo(std::string id, int dir ,int tipo, std::string categoria){
-    if(!this->ts.is_in(id))
-        this->ts.addSimbolo(id, Simbolo(dir,tipo,categoria));
+void Driver::agregar_simbolo(std::string id, int dir ,int tipo, string categoria){
+    if(!ts.is_in(id))
+        ts.addSimbolo(id, Simbolo(dir,tipo,categoria));
     else
-        error_semantico("La variable "+id+" ya fue declarada");
+        error_semantico("La variable " + id + " ya fue declarada");
 }
 
 // Función para agregar un símbolo a la tabla de símbolos (del tipo función)
-void Driver::agregar_simbolo(std::string id,int tipo, std::string categoria,vector<int> args){
+void Driver::agregar_simbolo(string id,int tipo, string categoria ,vector<int> args){
     
-    if (!pilaTs.Top()->is_in(id))
+    if (!pilaTs.lookTop()->is_in(id))
     {
-        pilaTs.Top()->addSimbolo(id,)
+        pilaTs.lookTop()->addSimbolo(id, Simbolo(dir,tipo,categoria, args));
+
 
         //Incrementa variable global dir de acuerdo al tamñao de la  var de tipos. 
         //No tiene caso dek
     }else
-        error_semantico("El simbolo "+id+" ya existe");
+        error_semantico("El simbolo " + id + " ya existe");
     
-
-
 }
 
 //Generacion de etiquetas L0, L1 ... Ln
@@ -125,7 +134,7 @@ Expresion Driver::asignacion(string id, Expresion e)
     string alfa;
     //Validar que el id fue declarado
     if(!ts.is_in(id)) error_semantico("La variable "+id+" no fue declarada");
-    int tipoId = ts.getType(id);
+    int tipoId = ts.getTipo(id);
     e1.tipo = tipoId; //La expresión de salida siempre tendrá el tipo del id
     if(tipoId == e.tipo){
         alfa = e.dir;

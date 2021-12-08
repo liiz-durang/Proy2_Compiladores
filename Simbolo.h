@@ -17,21 +17,32 @@ using namespace std;
 class Simbolo
 {
 private:
-    int direccion;
-    int type;
-    string categoria;
+    int dir;
+    int tipo;
+    string cat;
     vector<int> args;
 
 public:
     Simbolo();
-    //Para las variables y struct
-    Simbolo(int dir, int type, string cat);
-    //Para las funciones
-    Simbolo(int dir, int type, string cat, vector<int> args);
     ~Simbolo();
+    /*
+    * Crea un símbolo para una variable o estructura
+    * @param dirección de la variable
+    * @tipo de dato del simbolo, según la tabla de tipos
+    * @categoria categoria del simbolo
+    */
+    Simbolo(int dir, int tipo, string cat);
 
-    int getDirerccion();
-    int getType();
+    /*
+    *Para las funciones
+    */
+    Simbolo(int dir, int tipo, string cat, vector<int> args);
+    
+    /*
+    * Getters
+    */
+    int getDireccion();
+    int getTipo();
     string getCategoria();
     vector<int> getArgs();
     

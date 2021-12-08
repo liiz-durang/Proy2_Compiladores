@@ -32,7 +32,7 @@ public:
     * Creando un nuevo tipo.
     * @param id del tipo
     * @param name nombre del tipo
-    * @param tamanio tamaño del tipo nativo
+    * @param tamanio tamaño en bytes  del tipo nativo
     */
     void addTipo(int id, string name, int tamanio);
 

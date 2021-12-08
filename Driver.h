@@ -12,7 +12,7 @@
 #include "SimbolosTabla.h"
 #include "TiposTabla.h"
 #include "Cuadrupla.h"
-#include "PilaTS.h"
+#include "Pila.h"
 
 
 using namespace std;
@@ -33,16 +33,17 @@ struct Numero{
 class Driver
 {
 private:
+
     vector<Cuadrupla> icode;
 
-    //Tabla de simbolos
+    //Tabla de simbolos global
     SimbolosTabla ts;
 
     //Tabla de tipos
     TiposTabla tt;
 
     //Pila de tablas de simbolos 
-    PilaTS pilaTs;
+    Pila pilaTs;
 
     //Tabla de cadenas 
     map <std::string, std::string> tString; 
@@ -68,7 +69,7 @@ private:
     //Generador de código intermedio
     vector<Cuadrupla> codigo_intermedio;
 
-    //Contador de tipos
+    //Contador de tipos en tabla tipos
     int idTipo;
 
     //Contador etiqueta
@@ -82,11 +83,26 @@ public:
     Driver();
     ~Driver();
 
-    //Funciones para tabla de tipos
-    void agregar_tipo(std::string nombre, SimbolosTabla *tipo_base); //Para estructuras
-    void agregar_tipo(std::string nombre, int tam_bytes); //tipos base
+    //*****************Funciones para tabla de tipos************//
+
+    /*
+    * Función para agregar un tipo estructura
+    * a la tabla de tipos
+    * @param name nombre del tipo por lo general struct 
+    * @param tabSimbStruct referencia a la tabla de símbolos de la estructura
+    */
+    void agregar_tipo(std::string nombre, SimbolosTabla *tSimStruct);
     
-    //Funciones para tabla de simbolos
+    /*
+    * Función para agregar un tipo nativo a 
+    * la tabla de tipos
+    * @param name nombre del tipo
+    * @param tam_bytes tamaño e bytes del tipo nativo
+    */
+    void agregar_tipo(std::string nombre, int tam_bytes); 
+    
+    //*****************Funciones para tabla de simbolos************//
+    
     void agregar_simbolo(std::string id, int dir, int tipo, std::string categoria);
     
     
