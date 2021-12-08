@@ -102,7 +102,7 @@ public:
     void agregar_tipo(std::string nombre, int tam_bytes); 
     
     //*****************Funciones para tabla de simbolos************//
-    
+
     void agregar_simbolo(std::string id, int dir, int tipo, std::string categoria);
     
     
