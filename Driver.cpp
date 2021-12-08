@@ -1,34 +1,34 @@
 
 #include "Driver.h"
 #include <sstream>
+#include <iostream>
 
 Driver::Driver(){
     //Tabla de simbolos
-    ts = new SimbolosTabla();
+    ts = SimbolosTabla();
 
     //Tabla de tipos
-    tt = new TiposTabla();
+    tt = TiposTabla();
 
     //Pila de tablas de simbolos 
-    stack <SimbolosTabla> pilaTs;
+    pilaTs = PilaTS() ;
 
     //Tabla de cadenas 
     map <std::string, std::string> tString; 
 
     //Pila para las etiquetas
-    stack <int> pilaEtiquetas;
+    pilaEtiquetas = stack<int>();
 
     //Pila para direcciones
-    stack<int> pilaDir;
+    pilaDir = stack<int>();
 
     //Pila para temporales
-    stack<int> pilaTemporales;
+    pilaTemporales = stack<int>();
 
     //Dirección. Cada que se crea una nueva se reincia y se guarda en la pila para direcciones
-    int dir;
+    dir = 0;
 
     //Contador variables temporales. Reincia y se guarda en la pilaTemporales
-    int numTemporales;
 
     //Contador de tipos
     idTipo = 0;
@@ -36,16 +36,39 @@ Driver::Driver(){
     //Contador etiquetas
     numeroEtiqueta = 0;
 
-    //Contador Temporal
+    //Contador variables temporales. Reincia y se guarda en la pilaTemporales
     numeroTemporal = 0;
 }
 
 
 
+void Driver::crear_ambito(){
+    SimbolosTabla *ts = new SimbolosTabla();
+    pilaTs.push(*ts);
+    pilaDir.push(dir);
+    dir = 0;
+    pilaTemporales.push(numeroTemporal);
+    numTemporales = 0;    
+}
+
+void Driver::destruir_ambito(){
+    pilaTs.back().pop();
+}
+
+//pendiente
+void Driver::_label(string label){
+    icode.push_back(Cuadrupla("label","","",label ));
+}
+
+//pendiente
+void Driver::_goto(string label){
+    icode.push_back(Cuadrupla("goto","","",label ));
+}
+
 
  //Agregar Tipo struct
 void Driver::agregar_tipo(std::string nombre, SimbolosTabla *tipo_base){
-    this->tt.addTipo(idTipo++ , nombre, tipo_base->getTam() ,tipo_base);
+    this->tt.addTipo(idTipo++ , nombre ,tipo_base);
 }
 
  //Agregar Tipo base
@@ -58,12 +81,22 @@ void Driver::agregar_simbolo(std::string id, int dir ,int tipo, std::string cate
     if(!this->ts.is_in(id))
         this->ts.addSimbolo(id, Simbolo(dir,tipo,categoria));
     else
-        error("La variable "+id+" ya fue declarada");
+        error_semantico("La variable "+id+" ya fue declarada");
 }
 
 // Función para agregar un símbolo a la tabla de símbolos (del tipo función)
-void Driver::agregar_simbolo(std::string id, int dir ,int tipo, std::string categoria,vector<int> args){
-    this->ts.addSimbolo(id, Simbolo(dir,tipo,categoria, args));
+void Driver::agregar_simbolo(std::string id,int tipo, std::string categoria,vector<int> args){
+    
+    if (!pilaTs.Top()->is_in(id))
+    {
+        pilaTs.Top()->addSimbolo(id,)
+
+        //Incrementa variable global dir de acuerdo al tamñao de la  var de tipos. 
+        //No tiene caso dek
+    }else
+        error_semantico("El simbolo "+id+" ya existe");
+    
+
 
 }
 
@@ -86,13 +119,13 @@ void asignacion(std::string id, Expresion e){
 }
 
 //Profe 
-Expresion Driver::asig(string id, Expresion e)
+Expresion Driver::asignacion(string id, Expresion e)
 {
     Expresion e1;
     string alfa;
     //Validar que el id fue declarado
-    if(!ts.is_in(id)) error("La variable "+id+" no fue declarada");
-    int tipoId = ts.gettipo(id);
+    if(!ts.is_in(id)) error_semantico("La variable "+id+" no fue declarada");
+    int tipoId = ts.getType(id);
     e1.tipo = tipoId; //La expresión de salida siempre tendrá el tipo del id
     if(tipoId == e.tipo){
         alfa = e.dir;
@@ -107,7 +140,7 @@ Expresion Driver::asig(string id, Expresion e)
     }
     else
     {
-        error("Los tipos son incompatibles");
+        error_semantico("Los tipos son incompatibles");
     }
     genCode(id, alfa, "=", "");
     e.dir = id;        
@@ -126,8 +159,7 @@ string Driver::ampliar(std::string dir, int t1, int t2){
 }
 
 //
-string Driver::reducir(string dir, int t1, int t2)
-{
+string Driver::reducir(string dir, int t1, int t2){
     string temp;
     if(t1==t2) return dir;
     else if(t1==1 && t2==0){
@@ -138,16 +170,14 @@ string Driver::reducir(string dir, int t1, int t2)
     }else return "";
 }
 
-int Driver::max(int t1, int t2)
-{
+int Driver::maximo(int t1, int t2){
     if(t1==t2) return t1;
     else if(t1==0 && t2==1) return 1;
     else if(t1==1 && t2==0) return 1;
     else return -1;
 }
 
-int Driver::min(int t1, int t2)
-{
+int Driver::minimo(int t1, int t2){
     if(t1==t2) return t1;
     else if(t1==0 && t2==1) return 0;
     else if(t1==1 && t2==0) return 0;
@@ -173,6 +203,205 @@ Expresion Driver::disyuncion(Expresion e1, Expresion e2){
         error_semantico("Tipos de operandos no compatibles");
     }
 }
+Expresion Driver::conjuncion(Expresion e1, Expresion e2){
+    Expresion e;
+    e.tipo = 1; //Depende de la tabla de tipos  
+    e.dir= nuevaTemporal();
+
+    //Validar e1 y e2 mismo tipo
+    if(compatibles(e1.tipo, e2.tipo)){
+        Cuadrupla c;
+        c.arg1 = e1.dir;
+        c.arg2 = e2.dir;
+        c.resultado = e.dir;
+        c.operador = "&&";
+        codigo_intermedio.push_back(c);
+    }
+    else{
+        error_semantico("Tipos de operandos no compatibles");
+    }
+}
+
+Expresion Driver::igual(Expresion e1, Expresion e2){
+    Expresion e;
+    e.tipo = 1; //Depende de la tabla de tipos  
+    e.dir= nuevaTemporal();
+
+    //Validar e1 y e2 mismo tipo
+    if(compatibles(e1.tipo, e2.tipo)){
+        Cuadrupla c;
+        c.arg1 = e1.dir;
+        c.arg2 = e2.dir;
+        c.resultado = e.dir;
+        c.operador = "==";
+        codigo_intermedio.push_back(c);
+    }
+    else{
+        error_semantico("Tipos de operandos no compatibles");
+    }
+}
+
+Expresion Driver::distinto(Expresion e1, Expresion e2){
+    Expresion e;
+    e.tipo = 1; //Depende de la tabla de tipos  
+    e.dir= nuevaTemporal();
+
+    //Validar e1 y e2 mismo tipo
+    if(compatibles(e1.tipo, e2.tipo)){
+        Cuadrupla c;
+        c.arg1 = e1.dir;
+        c.arg2 = e2.dir;
+        c.resultado = e.dir;
+        c.operador = "!=";
+        codigo_intermedio.push_back(c);
+    }
+    else{
+        error_semantico("Tipos de operandos no compatibles");
+    }
+}
+
+Expresion Driver::menor_que(Expresion e1, Expresion e2){
+    Expresion e;
+    e.tipo = 1; //Depende de la tabla de tipos  
+    e.dir= nuevaTemporal();
+
+    //Validar e1 y e2 mismo tipo
+    if(compatibles(e1.tipo, e2.tipo)){
+        Cuadrupla c;
+        c.arg1 = e1.dir;
+        c.arg2 = e2.dir;
+        c.resultado = e.dir;
+        c.operador = "<";
+        codigo_intermedio.push_back(c);
+    }
+    else{
+        error_semantico("Tipos de operandos no compatibles");
+    }
+}
+
+Expresion Driver::mayor_que(Expresion e1, Expresion e2){
+    Expresion e;
+    e.tipo = 1; //Depende de la tabla de tipos  
+    e.dir= nuevaTemporal();
+
+    //Validar e1 y e2 mismo tipo
+    if(compatibles(e1.tipo, e2.tipo)){
+        Cuadrupla c;
+        c.arg1 = e1.dir;
+        c.arg2 = e2.dir;
+        c.resultado = e.dir;
+        c.operador = ">";
+        codigo_intermedio.push_back(c);
+    }
+    else{
+        error_semantico("Tipos de operandos no compatibles");
+    }
+}
+Expresion Driver::mayor_o_igual(Expresion e1, Expresion e2){
+    Expresion e;
+    e.tipo = 1; //Depende de la tabla de tipos  
+    e.dir= nuevaTemporal();
+
+    //Validar e1 y e2 mismo tipo
+    if(compatibles(e1.tipo, e2.tipo)){
+        Cuadrupla c;
+        c.arg1 = e1.dir;
+        c.arg2 = e2.dir;
+        c.resultado = e.dir;
+        c.operador = "=>";
+        codigo_intermedio.push_back(c);
+    }
+    else{
+        error_semantico("Tipos de operandos no compatibles");
+    }
+}
+
+Expresion Driver::menor_o_igual(Expresion e1, Expresion e2){
+    Expresion e;
+    e.tipo = 1; //Depende de la tabla de tipos  
+    e.dir= nuevaTemporal();
+
+    //Validar e1 y e2 mismo tipo
+    if(compatibles(e1.tipo, e2.tipo)){
+        Cuadrupla c;
+        c.arg1 = e1.dir;
+        c.arg2 = e2.dir;
+        c.resultado = e.dir;
+        c.operador = "<=";
+        codigo_intermedio.push_back(c);
+    }
+    else{
+        error_semantico("Tipos de operandos no compatibles");
+    }
+}
+
+Expresion Driver::suma(Expresion e1, Expresion e2){
+    Expresion e;
+    e.tipo = 1; //Depende de la tabla de tipos  
+    e.dir= nuevaTemporal();
+
+    //Validar e1 y e2 mismo tipo
+    if(compatibles(e1.tipo, e2.tipo)){
+        Cuadrupla c;
+        c.arg1 = e1.dir;
+        c.arg2 = e2.dir;
+        c.resultado = e.dir;
+        c.operador = "+";
+        codigo_intermedio.push_back(c);
+    }
+    else{
+        error_semantico("Tipos de operandos no compatibles");
+    }
+}
+
+Expresion Driver::negacion(Expresion e1)
+{
+    Expresion e;
+    e.tipo = 1; //Depende de la tabla de tipos  
+    e.dir= nuevaTemporal();
+    Cuadrupla c;
+    c.arg1 = e1.dir;
+    c.resultado = e.dir();
+    c.operador = "!";
+    codigo_intermedio.push_back(c);
+    //genCode(e.dir,  "!", e1);
+   
+    return e;
+}
+
+Expresion Driver::multiplicacion(Expresion e1, Expresion e2)
+{
+    Expresion e;
+    e.type = max(e1.type, e2.type);
+    if(e.type!=-1){
+        string alfa1 = ampliar(e1.dir, e1.type, e.type);
+        string alfa2 = ampliar(e2.dir, e2.type, e.type);
+        genCode(e.dir, alfa1, "*", alfa2);
+    }else{
+        error("Los tipos son incompatibles");
+    }
+    return e;
+}
+
+Expresion Driver::division(Expresion e1, Expresion e2){
+    Expresion e;
+    e.tipo = 1; //Depende de la tabla de tipos  
+    e.dir= nuevaTemporal();
+
+    //Validar e1 y e2 mismo tipo
+    if(compatibles(e1.tipo, e2.tipo)){
+        Cuadrupla c;
+        c.arg1 = e1.dir;
+        c.arg2 = e2.dir;
+        c.resultado = e.dir;
+        c.operador = "/";
+        codigo_intermedio.push_back(c);
+    }
+    else{
+        error_semantico("Tipos de operandos no compatibles");
+    }
+}
+
 
 bool Driver::compatibles (int t1, int t2){
 
@@ -192,7 +421,7 @@ bool Driver::compatibles (int t1, int t2){
 }
 
 void Driver::error_semantico(string msg){
-    cout<<"Error semántico "<<msg<<endl;
+    std::cout<<"Error semántico "<<msg<<endl;
     exit(EXIT_FAILURE);
 }
 
@@ -200,7 +429,7 @@ void Driver::error_semantico(string msg){
 
 
 //Duda
-Expresion Expresion::numero(std::string val, int tipo){
+Expresion Driver::numero(std::string val, int tipo){
     //Si son float, se debe convertir en cte
     if (tipo == 2)
     {
@@ -210,6 +439,5 @@ Expresion Expresion::numero(std::string val, int tipo){
         num.val = val;
         num.tipo = tipo;
         constantes[cte.str()] = num;
-    }
-    
+    }    
 }

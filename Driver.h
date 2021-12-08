@@ -9,9 +9,10 @@
 #include <map>
 #include <stack>
 #include <vector>
-#include <SimbolosTabla.h>
-#include <TiposTabla.h>
-#include <Cuadrupla.h>
+#include "SimbolosTabla.h"
+#include "TiposTabla.h"
+#include "Cuadrupla.h"
+#include "PilaTS.h"
 
 
 using namespace std;
@@ -41,7 +42,7 @@ private:
     TiposTabla tt;
 
     //Pila de tablas de simbolos 
-    stack <SimbolosTabla> pilaTs;
+    PilaTS pilaTs;
 
     //Tabla de cadenas 
     map <std::string, std::string> tString; 
@@ -87,13 +88,18 @@ public:
     
     //Funciones para tabla de simbolos
     void agregar_simbolo(std::string id, int dir, int tipo, std::string categoria);
-    void agregar_simbolo(std::string id, int dir, int tipo, std::string categoria, std::vector <int> args);
+    
+    
+    void agregar_simbolo(std::string id, int tipo, std::string categoria, std::vector <int> args);
+    
 
 
     std::string nuevaEtiqueta();
     std::string nuevaTemporal();
 
-    void asignacion(std::string id, Expresion e);
+    void Driver::_label(string label);
+    void Driver::_goto(string label);
+    Expresion asignacion(std::string id, Expresion e);
     Expresion disyuncion(Expresion e1, Expresion e2);
     Expresion conjuncion(Expresion e1, Expresion e2);
     Expresion igual(Expresion e1, Expresion e2);
@@ -124,6 +130,11 @@ public:
     void gen_imprimir(std::string val);
     void gen_lectura(std::string dir);
     void gen_label(std::string label);
+
+    void crear_ambito();
+    void destruir_ambito();
+
+    void error_semantico(string msg);
 
 };
 

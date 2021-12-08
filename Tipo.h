@@ -16,7 +16,7 @@ using namespace std;
 
 
 //fing.edu.uy/tecnoinf/maldonado/cursos/eda/material/teo/EDA-teorico13.pdf
-union TipeBase{
+union TipoBase{
     SimbolosTabla *tabla;
     int base;
 };
@@ -28,22 +28,38 @@ private:
     int tamanio;
     int items;
     bool  isTable;
-    TipeBase base;
+    TipoBase base;
+
 public:
     Tipo();
     ~Tipo();
-    //Tipo nativo, con nombre y tamaño
+    /*
+    * Crea un tipo a partir de su nombre y tamaño
+    * sirve para los tipos nativos
+    * @param name nombre del tipo
+    * @param tamanio tamaño del tipo nativo
+    */
     Tipo(string name, int tamanio);
 
-    //Tipo para struct
-    //*tab - Apuntador a la tabla de simbolos de la struct
-    Tipo(string name, SimbolosTabla *tab, int tam);
+    /*
+    * Crea un tipo para las estructuras
+    * @param name nombre del tipo (struct)
+    * @param tabla apuntador a tabla de símbolos para la estructura
+    * @param tamanio tamaño en bytes de la tabla de símbolos
+    */
+    Tipo(string name, SimbolosTabla *tabla, int tamanio);
 
-    //Tipo para arreglos 
-    //int items - Número de elementos del arreglo
-    // int tamanio - Tamanio en bytes
+    /*
+    * Crea un tipo para los arreglos
+    * @param name nombre del tipo (array)
+    * @param items número de elementos del arreglo
+    * @param tamanio tamaño en bytes
+    */
     Tipo(string name, int items, int base, int tamanio);
     
+    /*
+    * Getters
+    */
     int getTamanio();
     SimbolosTabla *getTabla();
     int getItems();
