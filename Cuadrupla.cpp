@@ -11,7 +11,7 @@ Cuadrupla::Cuadrupla(/* args */)
 
 Cuadrupla::Cuadrupla(string op, string arg1, string arg2, string resultado)
 {
-    this->operador = operador;
+    this->operador = op;
     this->arg1 = arg1;
     this->arg2 = arg2;
     this->resultado = resultado;
@@ -19,7 +19,50 @@ Cuadrupla::Cuadrupla(string op, string arg1, string arg2, string resultado)
 
 Cuadrupla::~Cuadrupla()
 {
+    
 }
+
+
+CuadruplaTipo Cuadrupla::resolverCuadrupla(string op){
+    if(op == "+") return QMAS;
+    if(op == "-") return QMENOS;
+    if(op == "*") return QMUL;
+    if(op == "/") return QDIV;
+    if(op == "=") return QCOPY;
+    if(op == "if") return QIF;
+    if(op == "goto") return QGOTO;
+    if(op == "label") return QLABEL;
+    if(op=="(float)") return QCASTFLOAT;
+    if(op=="(int)") return QCASTINT;
+}
+
+void Cuadrupla::print(){
+    switch(resolverCuadrupla(operador)){
+        case QMAS: 
+        case QMENOS:
+        case QMUL:
+        case QDIV:
+            cout<<resultado<<"="<<arg1<<operador<<arg2<<endl;
+            break;
+        case QIF:
+            cout<<operador<<" "<<arg1<<" goto "<<resultado<<endl;
+            break;
+        case QGOTO:
+            cout<<operador<<" "<<resultado<<endl;
+            break;
+        case QCOPY:
+            cout<<resultado<<operador<<arg1<<endl;
+            break;
+        case QLABEL:
+            cout<<resultado<<":";
+            break;
+        case QCASTFLOAT:
+        case QCASTINT:
+            cout<<resultado<<"="<<operador<<arg1<<endl;
+            break;
+    }
+}
+
 
 string Cuadrupla::getResultado()
 {

@@ -13,6 +13,9 @@
 #include <string>
 using namespace std;
 
+//Tipos de operaciones de tres direcciones en cuadruplas
+enum CuadruplaTipo {QIF, QGOTO, QMAS, QMENOS, QMUL, QDIV, QCOPY, QLABEL,QCASTINT, QCASTFLOAT};
+
 class Cuadrupla
 {
 private:
@@ -25,10 +28,10 @@ public:
     Cuadrupla(string operador, string arg1, string arg2, string resultado);    
     ~Cuadrupla();
 
-    //void print();
+    void print();
     //Funcion para representar un op de tipo string en un op de tipo enum
-    //QuadType resolveQuad(string op);
-    //QuadType resolveQuad();
+    CuadruplaTipo resolverCuadrupla(string op);
+    CuadruplaTipo resolverCuadrupla();
     
     string getResultado();
     string getArg1();

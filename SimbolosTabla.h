@@ -29,7 +29,7 @@ public:
     string getCategoria(string id);
     vector<int> getArgs(string id);
     bool is_in(string id);
-    
+    int getTam();
 };
 
 #endif // !__SimbolosTabla_HPP__

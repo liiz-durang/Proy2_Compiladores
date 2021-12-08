@@ -13,6 +13,7 @@
 #include <TiposTabla.h>
 #include <Cuadrupla.h>
 
+
 using namespace std;
 
 
@@ -20,6 +21,7 @@ struct Expresion{
     int tipo;
     string dir;
     
+
 };
 
 struct Numero{
@@ -30,6 +32,7 @@ struct Numero{
 class Driver
 {
 private:
+    vector<Cuadrupla> icode;
 
     //Tabla de simbolos
     SimbolosTabla ts;
@@ -64,6 +67,14 @@ private:
     //Generador de código intermedio
     vector<Cuadrupla> codigo_intermedio;
 
+    //Contador de tipos
+    int idTipo;
+
+    //Contador etiqueta
+    int numeroEtiqueta;
+    int numeroTemporal;
+
+
     //Generador código final 
 
 public: 
@@ -71,10 +82,14 @@ public:
     ~Driver();
 
     //Funciones para tabla de tipos
-    int agregar_tipo(std::string nombre, int tam_bytes, SymbTab *tipo_base);
+    void agregar_tipo(std::string nombre, SimbolosTabla *tipo_base); //Para estructuras
+    void agregar_tipo(std::string nombre, int tam_bytes); //tipos base
     
-    void agregar_simbolo(std::string id, int tipo, std::string categoria);
-    void agregar_simbolo(std::string id, int tipo, std::vector <int> args);
+    //Funciones para tabla de simbolos
+    void agregar_simbolo(std::string id, int dir, int tipo, std::string categoria);
+    void agregar_simbolo(std::string id, int dir, int tipo, std::string categoria, std::vector <int> args);
+
+
     std::string nuevaEtiqueta();
     std::string nuevaTemporal();
 
@@ -109,9 +124,6 @@ public:
     void gen_imprimir(std::string val);
     void gen_lectura(std::string dir);
     void gen_label(std::string label);
-
-
-
 
 };
 

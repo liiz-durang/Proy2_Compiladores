@@ -28,10 +28,10 @@ public:
     void addTipo(int id, string name, int tamanio);
 
     //Agregar Tipos arreglo
-    void addTipo(int id, string name, int items,  int base);
+    //void addTipo(int id, string name, int items,  int base);
 
     //Agregar Tipo struct
-    void addTipo(int id, string name, SimbolosTabla *tab);
+    void addTipo(int id, string name, int tam,SimbolosTabla *tab);
 
     //Obtener tamanio del tipo
     int getTamanio(int id);
