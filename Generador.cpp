@@ -21,7 +21,7 @@ void Generador::translate(SimbolosTabla *ts)
     map<string,Simbolo> syms = ts->getSimbolos();
     for(map<string,Simbolo>::iterator sym=syms.begin();sym!=syms.end(); sym++ )
     {
-        if(sym->second.getType()==0){
+        if(sym->second.getTipo()==0){
             file<<"\t"<<sym->first<<": .word 0"<<endl;
         }else{
             file<<"\t"<<sym->first<<": .float 0.0"<<endl;            
@@ -36,7 +36,7 @@ void Generador::translate(vector<Cuadrupla> icode, SimbolosTabla *ts)
     
     file<<".text"<<endl;
     for(vector<Cuadrupla>::iterator q = icode.begin(); q!=icode.end(); q++){
-        translate(*q, ts->getType(q->getResultado()));
+        translate(*q, ts->getTipo(q->getResultado()));
     }
     // Código final para terminar  la ejecución del programa en ensamblador
     file<<"\tli $v0, 10"<<endl;

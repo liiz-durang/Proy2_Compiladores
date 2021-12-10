@@ -71,6 +71,10 @@ public:
 
     //Obtener nombre del tipo
     string getName(int id);
+
+    //Obtener el tipo
+    int getId(string name);
+
 };
 
 #endif // !__TiposTabla_HPP__

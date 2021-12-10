@@ -64,23 +64,34 @@ void Cuadrupla::print(){
 }
 
 
-string Cuadrupla::getResultado()
-{
+string Cuadrupla::getResultado(){
     return resultado;
 }
 
-string Cuadrupla::getArg1()
-{
+string Cuadrupla::getArg1(){
     return arg1;
 }
 
-string Cuadrupla::getArg2()
-{
+string Cuadrupla::getArg2(){
     return arg2;
 }
 
-string Cuadrupla::getOperador()
-{
+string Cuadrupla::getOperador(){
     return operador;
 }
 
+void Cuadrupla::setOperador(string op){
+    this->operador = op;
+}
+
+void Cuadrupla::setArg1(string a1){
+    this->arg1 = a1;
+}
+
+void Cuadrupla::setArg2(string a2){
+    this->arg2 = a2;
+}
+
+void Cuadrupla::setResultado(string resul){
+    this->resultado = resul;
+}

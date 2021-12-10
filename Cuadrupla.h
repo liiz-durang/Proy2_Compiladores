@@ -37,6 +37,10 @@ public:
     string getArg1();
     string getArg2();
     string getOperador();
+    void setOperador(string op);
+    void setArg1(string a1);
+    void setArg2(string a2);
+    void setResultado(string resul);
 };
 
 

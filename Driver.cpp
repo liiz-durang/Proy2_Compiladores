@@ -38,6 +38,12 @@ Driver::Driver(){
 
     //Contador variables temporales. Reincia y se guarda en la pilaTemporales
     numeroTemporal = 0;
+
+    //Variable para conocer el tipo de retorno de una función
+    tipoRetorno = 0;
+
+    //Bandera para conocer si una función tiene un valor de retorno o no.
+    banderaRetorno= false;
 }
 
 
@@ -56,7 +62,7 @@ void Driver::destruir_ambito(){
 }
 
 //pendiente
-void Driver::_label(string label){
+void Driver::_label(string label){ //es lo mismo que gen label
     icode.push_back(Cuadrupla("label","","",label ));
 }
 
@@ -69,11 +75,11 @@ void Driver::_goto(string label){
 /*
 * Función para agregar tipo de estructura
 * a la tabla de tipos
-* @param name nombre del tipo por lo general struct 
+* @param name nombre del tipo por lo _eral struct 
 * @param tabSimbStruct referencia a la tabla de símbolos de la estructura
 */
 void Driver::agregar_tipo(string nombre, SimbolosTabla *tSimStruct){
-    tt.addTipo(idTipo++ , nombre ,tSimStruct);
+    tt.addTipo(idTipo++ , nombre , tSimStruct);
 }
 
 /*
@@ -87,23 +93,25 @@ void Driver::agregar_tipo(string nombre, int tam_bytes){
 }
 
 //Agregar simbolo para variable a tabla simbolos
-void Driver::agregar_simbolo(std::string id, int dir ,int tipo, string categoria){
-    if(!ts.is_in(id))
-        ts.addSimbolo(id, Simbolo(dir,tipo,categoria));
-    else
+void Driver::agregar_simbolo(string id,int tipo){
+    if(!ts.is_in(id)){
+        ts.addSimbolo(id, Simbolo(dir,tipo,"variable"));
+        dir = dir + tt.getTamanio(tipo);
+    }
+    else{
         error_semantico("La variable " + id + " ya fue declarada");
+    }
 }
 
-// Función para agregar un símbolo a la tabla de símbolos (del tipo función)
-void Driver::agregar_simbolo(string id,int tipo, string categoria ,vector<int> args){
+// Función para agregar un símbolo función a la tabla de símbolos
+void Driver::agregar_simbolo(string id,int tipo, vector<int> args){
     
-    if (!pilaTs.lookTop()->is_in(id))
+if (!pilaTs.lookTop()->is_in(id))
     {
-        pilaTs.lookTop()->addSimbolo(id, Simbolo(dir,tipo,categoria, args));
-
-
-        //Incrementa variable global dir de acuerdo al tamñao de la  var de tipos. 
-        //No tiene caso dek
+        pilaTs.lookTop()->addSimbolo(id, Simbolo(dir,tipo,"funcion", args));
+        //Incrementa variable global dir de acuerdo al tamaño de la  var de tipos. 
+        // tamanio del tipo 
+        dir = dir + tt.getTamanio(tipo);
     }else
         error_semantico("El simbolo " + id + " ya existe");
     
@@ -128,8 +136,8 @@ void asignacion(std::string id, Expresion e){
 }
 
 //Profe 
-Expresion Driver::asignacion(string id, Expresion e)
-{
+Expresion Driver::asignacion(string id, Expresion e){
+    string temp;
     Expresion e1;
     string alfa;
     //Validar que el id fue declarado
@@ -151,18 +159,24 @@ Expresion Driver::asignacion(string id, Expresion e)
     {
         error_semantico("Los tipos son incompatibles");
     }
-    genCode(id, alfa, "=", "");
+    temp = nuevaTemporal();
+    icode.push_back(Cuadrupla("=",id,alfa,temp));
     e.dir = id;        
     return e1;
 }
 
-string Driver::ampliar(std::string dir, int t1, int t2){
+//string dir es dir de cuadrupa (direccion, )
+string Driver::ampliar(string dir, int t1, int t2){
     string temp;
     if(t1==t2) return dir;
     else if(t1==0 && t2==1){
         temp = nuevaTemporal();
         icode.push_back(Cuadrupla("(float)",dir, "", temp));
-        agregar_simbolo(temp , 1,"temporal");
+        //Tipo de temp es el tipo de float
+        //Buscar tipo float (por el casteo) en tabla de tipos
+
+        
+        agregar_simbolo(temp , tt.getId("float"));
         return temp;
     }else return "";
 }
@@ -174,7 +188,7 @@ string Driver::reducir(string dir, int t1, int t2){
     else if(t1==1 && t2==0){
         temp = nuevaTemporal();
         icode.push_back(Cuadrupla("(int)",dir, "", temp));
-       agregar_simbolo(temp, 0, "temporal");        
+       agregar_simbolo(temp, tt.getId("float"));        
         return temp;
     }else return "";
 }
@@ -202,10 +216,10 @@ Expresion Driver::disyuncion(Expresion e1, Expresion e2){
     //Validar e1 y e2 mismo tipo
     if(compatibles(e1.tipo, e2.tipo)){
         Cuadrupla c;
-        c.arg1 = e1.dir;
-        c.arg2 = e2.dir;
-        c.resultado = e.dir;
-        c.operador = "||";
+        c.setArg1(e1.dir);
+        c.setArg2(e2.dir);
+        c.setResultado(e.dir);
+        c.setOperador("||");
         codigo_intermedio.push_back(c);
     }
     else{
@@ -220,10 +234,10 @@ Expresion Driver::conjuncion(Expresion e1, Expresion e2){
     //Validar e1 y e2 mismo tipo
     if(compatibles(e1.tipo, e2.tipo)){
         Cuadrupla c;
-        c.arg1 = e1.dir;
-        c.arg2 = e2.dir;
-        c.resultado = e.dir;
-        c.operador = "&&";
+        c.setArg1(e1.dir);
+        c.setArg2(e2.dir);
+        c.setResultado(e.dir);
+        c.setOperador("&&");
         codigo_intermedio.push_back(c);
     }
     else{
@@ -239,10 +253,10 @@ Expresion Driver::igual(Expresion e1, Expresion e2){
     //Validar e1 y e2 mismo tipo
     if(compatibles(e1.tipo, e2.tipo)){
         Cuadrupla c;
-        c.arg1 = e1.dir;
-        c.arg2 = e2.dir;
-        c.resultado = e.dir;
-        c.operador = "==";
+        c.setArg1(e1.dir);
+        c.setArg2(e2.dir);
+        c.setResultado(e.dir);
+        c.setOperador("==");
         codigo_intermedio.push_back(c);
     }
     else{
@@ -258,10 +272,10 @@ Expresion Driver::distinto(Expresion e1, Expresion e2){
     //Validar e1 y e2 mismo tipo
     if(compatibles(e1.tipo, e2.tipo)){
         Cuadrupla c;
-        c.arg1 = e1.dir;
-        c.arg2 = e2.dir;
-        c.resultado = e.dir;
-        c.operador = "!=";
+        c.setArg1(e1.dir);
+        c.setArg2(e2.dir);
+        c.setResultado(e.dir);
+        c.setOperador("!=");
         codigo_intermedio.push_back(c);
     }
     else{
@@ -277,10 +291,10 @@ Expresion Driver::menor_que(Expresion e1, Expresion e2){
     //Validar e1 y e2 mismo tipo
     if(compatibles(e1.tipo, e2.tipo)){
         Cuadrupla c;
-        c.arg1 = e1.dir;
-        c.arg2 = e2.dir;
-        c.resultado = e.dir;
-        c.operador = "<";
+        c.setArg1(e1.dir);
+        c.setArg2(e2.dir);
+        c.setResultado(e.dir);
+        c.setOperador("<");
         codigo_intermedio.push_back(c);
     }
     else{
@@ -296,10 +310,10 @@ Expresion Driver::mayor_que(Expresion e1, Expresion e2){
     //Validar e1 y e2 mismo tipo
     if(compatibles(e1.tipo, e2.tipo)){
         Cuadrupla c;
-        c.arg1 = e1.dir;
-        c.arg2 = e2.dir;
-        c.resultado = e.dir;
-        c.operador = ">";
+        c.setArg1(e1.dir);
+        c.setArg2(e2.dir);
+        c.setResultado(e.dir);
+        c.setOperador(">");
         codigo_intermedio.push_back(c);
     }
     else{
@@ -314,10 +328,10 @@ Expresion Driver::mayor_o_igual(Expresion e1, Expresion e2){
     //Validar e1 y e2 mismo tipo
     if(compatibles(e1.tipo, e2.tipo)){
         Cuadrupla c;
-        c.arg1 = e1.dir;
-        c.arg2 = e2.dir;
-        c.resultado = e.dir;
-        c.operador = "=>";
+        c.setArg1(e1.dir);
+        c.setArg2(e2.dir);
+        c.setResultado(e.dir);
+        c.setOperador("=>");
         codigo_intermedio.push_back(c);
     }
     else{
@@ -333,10 +347,10 @@ Expresion Driver::menor_o_igual(Expresion e1, Expresion e2){
     //Validar e1 y e2 mismo tipo
     if(compatibles(e1.tipo, e2.tipo)){
         Cuadrupla c;
-        c.arg1 = e1.dir;
-        c.arg2 = e2.dir;
-        c.resultado = e.dir;
-        c.operador = "<=";
+        c.setArg1(e1.dir);
+        c.setArg2(e2.dir);
+        c.setResultado(e.dir);
+        c.setOperador("<=");
         codigo_intermedio.push_back(c);
     }
     else{
@@ -352,10 +366,10 @@ Expresion Driver::suma(Expresion e1, Expresion e2){
     //Validar e1 y e2 mismo tipo
     if(compatibles(e1.tipo, e2.tipo)){
         Cuadrupla c;
-        c.arg1 = e1.dir;
-        c.arg2 = e2.dir;
-        c.resultado = e.dir;
-        c.operador = "+";
+        c.setArg1(e1.dir);
+        c.setArg2(e2.dir);
+        c.setResultado(e.dir);
+        c.setOperador("+");
         codigo_intermedio.push_back(c);
     }
     else{
@@ -363,31 +377,29 @@ Expresion Driver::suma(Expresion e1, Expresion e2){
     }
 }
 
-Expresion Driver::negacion(Expresion e1)
-{
+Expresion Driver::negacion(Expresion e1){
     Expresion e;
     e.tipo = 1; //Depende de la tabla de tipos  
     e.dir= nuevaTemporal();
     Cuadrupla c;
-    c.arg1 = e1.dir;
-    c.resultado = e.dir();
-    c.operador = "!";
+    c.setArg1(e1.dir);
+    c.setResultado(e.dir);
+    c.setOperador("!");
     codigo_intermedio.push_back(c);
     //genCode(e.dir,  "!", e1);
    
     return e;
 }
 
-Expresion Driver::multiplicacion(Expresion e1, Expresion e2)
-{
+Expresion Driver::multiplicacion(Expresion e1, Expresion e2){
     Expresion e;
-    e.type = max(e1.type, e2.type);
-    if(e.type!=-1){
-        string alfa1 = ampliar(e1.dir, e1.type, e.type);
-        string alfa2 = ampliar(e2.dir, e2.type, e.type);
-        genCode(e.dir, alfa1, "*", alfa2);
+    e.tipo = max(e1.tipo, e2.tipo);
+    if(e.tipo!=-1){
+        string alfa1 = ampliar(e1.dir, e1.tipo, e.tipo);
+        string alfa2 = ampliar(e2.dir, e2.tipo, e.tipo);
+        icode.push_back(Cuadrupla("*",alfa1,alfa2,e.dir));
     }else{
-        error("Los tipos son incompatibles");
+        error_semantico("Los tipos son incompatibles");
     }
     return e;
 }
@@ -400,10 +412,10 @@ Expresion Driver::division(Expresion e1, Expresion e2){
     //Validar e1 y e2 mismo tipo
     if(compatibles(e1.tipo, e2.tipo)){
         Cuadrupla c;
-        c.arg1 = e1.dir;
-        c.arg2 = e2.dir;
-        c.resultado = e.dir;
-        c.operador = "/";
+        c.setArg1(e1.dir);
+        c.setArg2(e2.dir);
+        c.setResultado(e.dir);
+        c.setOperador("/");
         codigo_intermedio.push_back(c);
     }
     else{
@@ -434,19 +446,16 @@ void Driver::error_semantico(string msg){
     exit(EXIT_FAILURE);
 }
 
-
-
-
-//Duda
-Expresion Driver::numero(std::string val, int tipo){
     //Si son float, se debe convertir en cte
+Expresion Driver::floatAconstante(string val, int tipo){
+
     if (tipo == 2)
     {
         stringstream cte;
-        cte << "cteFloat" << cteFloat ++ ;
+        cte << "cteFloat" << numeroCte ++ ;
         Numero num;
-        num.val = val;
+        num.valor = val;
         num.tipo = tipo;
-        constantes[cte.str()] = num;
+        constantes[cte.str()] = val;
     }    
 }

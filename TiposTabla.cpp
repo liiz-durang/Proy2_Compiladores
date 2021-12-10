@@ -72,3 +72,16 @@ string TiposTabla::getName(int id){
     return tiposT[id].getName();        
 }
 
+int TiposTabla::getId(string name){
+
+    map<int,Tipo>::iterator it;
+    it = tiposT.begin();
+    while(it != tiposT.end()){
+        if( (it->second).getName() == name ){
+            return it->first;
+        }
+    }
+    return -1;
+
+}
+

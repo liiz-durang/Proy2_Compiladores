@@ -21,12 +21,11 @@ using namespace std;
 struct Expresion{
     int tipo;
     string dir;
-    
 
 };
 
 struct Numero{
-    std::string valor;
+    string valor;
     int tipo;
 };
 
@@ -46,7 +45,7 @@ private:
     Pila pilaTs;
 
     //Tabla de cadenas 
-    map <std::string, std::string> tString; 
+    map <string, string> tString; 
 
     //Pila para las etiquetas
     stack <int> pilaEtiquetas;
@@ -75,9 +74,13 @@ private:
     //Contador etiqueta
     int numeroEtiqueta;
     int numeroTemporal;
+    int numeroCte;
+
+    int tipoRetorno;
+    bool banderaRetorno;
 
 
-    //Generador código final 
+
 
 public: 
     Driver();
@@ -103,15 +106,16 @@ public:
     
     //*****************Funciones para tabla de simbolos************//
 
-    void agregar_simbolo(std::string id, int dir, int tipo, std::string categoria);
+    //Agregar simbolo de tipo variable
+    void agregar_simbolo(string id, int tipo);
     
-    
-    void agregar_simbolo(std::string id, int tipo, std::string categoria, std::vector <int> args);
+    //Agregar simbolo de tipo funcion 
+    void agregar_simbolo(string id, int tipo, vector <int> args);
     
 
 
-    std::string nuevaEtiqueta();
-    std::string nuevaTemporal();
+    string nuevaEtiqueta();
+    string nuevaTemporal();
 
     void Driver::_label(string label);
     void Driver::_goto(string label);
@@ -132,26 +136,24 @@ public:
 
     //Convertir identificador en expresion
     Expresion identificador(std::string id);
-    Expresion numero(std::string val, int tipo);
+    Expresion floatAconstante(std::string val, int tipo);
 
-    std::string ampliar(std::string dir, int t1, int t2);
-    std::string reducir(std::string dir, int t1, int t2);
+    std::string ampliar(string dir, int t1, int t2);
+    std::string reducir(string dir, int t1, int t2);
     int maximo (int t1, int t2);
     int minimo(int t1, int t2);
     //Ver que 2 tipos estructurados sean compatibles
     //Compatibles si tienen el mismo num y tipo de campos
     bool compatibles(int t1, int t2);
 
-    void error_semantico(std::string mensaje);
-    void gen_imprimir(std::string val);
-    void gen_lectura(std::string dir);
-    void gen_label(std::string label);
+    void error_semantico(string mensaje);
+    void gen_imprimir(string val);
+    void gen_lectura(string dir);
 
     void crear_ambito();
     void destruir_ambito();
 
     void error_semantico(string msg);
-
 };
 
 
