@@ -14,3 +14,8 @@ $ flex lexer.ll
 $ g++ main.cpp Scanner.cpp -o lexer
 $ ./lexer <archivoPrueba>
 ```
+
+Analizador Sintáctico
+```shell
+$ bison -d -v parser.yy
+```
