@@ -1,6 +1,7 @@
 # Proyecto 2 Compiladores 
 
 Compilador para lenguaje C-- Versión 0.
+> Analizador léxico
 
 * Durán González Lizeth 
 * García Meneses jeremy 
@@ -13,9 +14,4 @@ Analizador Léxico
 $ flex lexer.ll
 $ g++ main.cpp Scanner.cpp -o lexer
 $ ./lexer <archivoPrueba>
-```
-
-Analizador Sintáctico
-```shell
-$ bison -d -v parser.yy
 ```

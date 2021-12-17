@@ -1,27 +1,31 @@
+/*
+* Analizador Léxico
+* Compiladores 2022-1
+* Grupo: 1
+* Integrantes: Durán González Lizeth        |   García Meneses jeremy   
+            Mendoza de la Vega Elizabeth    |   Parada Pérez Jesús Bryan
+*
+* Descripción:  Llamada a los métodos del análisis léxico. Código que
+*               abre el archivo prueba y lo pasa al analizador léxico.
+*/
+
 #include <iostream>
 #include <fstream>
-#include "Scanner.h"
+#include "Driver.h"
 
 using namespace std;
-using namespace COMP;
 
 int main(int argc, char *argv[]){
-	if(argc < 2){
-		cout<<"Faltan argumentos"<<endl;
-		return EXIT_FAILURE;
-
-	}
-
-	filebuf fb;
-	fb.open(string(argv[1]), ios::in);
-	istream in(&fb);
-	Scanner lexer(&in);
-	int token = lexer.yylex();
-
-	while(token != 0){
-		cout<<token <<" , "<< lexer.YYText()<<endl;
-		token = lexer.yylex();
-	}
-	fb.close();
-	return 0;
+	
+	Driver driver;
+    if (argc == 2)
+    {
+        driver.parse(argv[1]);
+    }
+    else
+    {
+        /** exit with failure condition **/
+        return (EXIT_FAILURE);
+    }
+    return (EXIT_SUCCESS);
 }

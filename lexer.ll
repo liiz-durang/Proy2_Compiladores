@@ -1,33 +1,53 @@
 %{
 	#include <iostream>
 	#include <string>
+
 	using namespace std;
+
 	#include "Tokens.h"
+	#include "Lexer.h"
+	#include "parser.tab.hh"
 
-	#include "Scanner.h"
+	#undef YY_DECL
+	#define YY_DECL int Lexer::yylex(yy::Parser::semantic_type* const lval, yy::Parser::location_type *location)
+	using token = yy::Parser::token;
 
+	#define YY_USER_ACTION loc->step(); loc->columns(yyleng);
+	
+	//variable para reportar el tipo de un número
+	int numType;
+	//variable para contar líneas
+	int line = 1;
 %}
 
 %option c++
-%option outfile = "Scanner.cpp"
-%option yyclass = "COMP::Scanner"
-%option case-insensitive
-%option noyywrap
+%option outfile = "Lexer.cpp"
+%option yyclass = "Lexer"
 
 
 ENTERO [0-9]+
-FLOTANTE ([0-9])*.([0-9])+([Ee]([+-])?([0-9])+)?[fF]
-DOUBLE ([0-9])*.([0-9])+([Ee]([+-])?([0-9])+)?[dD]?
+FLOTANTE ([0-9])*("."([0-9])+)?([Ee]([+-])?([0-9])+)?[fF]
+DOUBLE ([0-9])*("."([0-9])+)?([Ee]([+-])?([0-9])+)?[dD]?
 ID [a-zA-Z][A-Za-z0-9_]*
-ESP [ \t\n\r]
+ESP [ \t\r]+
 CADENA  \"([\x20-\x21\x23-\xFE])*\"
 CARACTER \'([\x20-\x21\x23-\xFE \t\n\r])\'
 
 %%
+
+
+%{ 
+	//Codigo ejecutado al inicio de yylex
+	yylval = lval;
+
+%}
+
 "char"		{return CHAR;}
-"int"		{return INT;}
-"float"		{return FLOAT;}
-"double" 	{return DOUBLE;}
+"int"		{return INT; }
+
+"float"		{return FLOAT; }
+"double" 	{return DOUBLE; }
+
 "struct"	{return STRUCT;}
 "void"		{return VOID;}
 
@@ -62,19 +82,42 @@ CARACTER \'([\x20-\x21\x23-\xFE \t\n\r])\'
 ";"			{return PYC;}
 ","			{return COMA;}
 "." 		{return PUNTO;}
-{ESP}		{}
 
-{ENTERO}	{return NUMERO;}
-{FLOTANTE}	{return NUMERO;}
-{DOUBLE}	{return NUMERO;}
+{ENTERO}	{ 	numType = 1;
+				return NUMERO;}
+{FLOTANTE}	{	numType = 2;
+				return NUMERO;}
+{DOUBLE}	{	numType = 3;
+				return NUMERO;}
 
 {ID}		{return ID;}
 
-{CADENA} 	{return CADENA;}
-{CARACTER}	{return CARACTER;}
+{CADENA} 	{	numType = 5;
+				return CADENA;}
+{CARACTER}	{	numType = 4;
+				return CARACTER;}
 
-
-.		{cout<<"ERROR LEXICO " << yytext << endl;}
+{ESP}   	{}
+"\n"    	{line++;}
+.			{cout<<"ERROR LEXICO " << yytext << endl;}
 
 %%
 
+int yyFlexLexer::yywrap(){
+    return 1;
+}
+
+int Lexer::getType()
+{
+    return numType;
+}
+
+int Lexer::getLine()
+{
+    return line;
+}
+
+string Lexer::getVal()
+{
+    return yytext;
+}
