@@ -30,7 +30,6 @@ using namespace std;
     };
 
         using FlexLexer::yylex;
-        virtual int yylex();
         virtual int yylex(yy::Parser::semantic_type* const lval, yy::Parser::location_type *location);
          //Función para retornar el contador de líneas
         virtual int getLine();

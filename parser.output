@@ -1,2255 +1,2196 @@
-Terminals unused in grammar
-
-    ESP
-
-
 Grammar
 
-    0 $accept: programa $end
+    0 $accept: p $end
 
-    1 programa: declaraciones
+    1 $@1: ε
 
-    2 declaraciones: declaracion declaraciones
-    3              | declaracion
+    2 p: $@1 dd
 
-    4 declaracion: tipo ID dcl1
-    5            | STRUCT dcl3
-    6            | VOID ID LPAR lista-args RPAR LKEY decl-locales bloque-sentencias RKEY
+    3 dd: d dd
+    4   | ε
 
-    7 dcl1: lista-var PYC
-    8     | LPAR lista-args RPAR LKEY decl-locales bloque-sentencias RKEY
+    5 $@2: ε
 
-    9 dcl2: ID LPAR lista-args RPAR LKEY decl-locales bloque-sentencias RKEY
-   10     | decl-struct
+    6 $@3: ε
 
-   11 dcl3: decl-struct
-   12     | ID dcl2
+    7 d: tipo $@2 ID $@3 dcl1
 
-   13 decl-var: lista-var PYC
+    8 $@4: ε
 
-   14 lista-var: ID lista-var
-   15          | COMA ID lista-var
-   16          | ID
+    9 d: STRUCT $@4 dcl3
 
-   17 tipo: INT
-   18     | FLOAT
-   19     | DOUBLE
-   20     | CHAR
+   10 $@5: ε
 
-   21 decl-struct: body-struct lista-var PYC
+   11 d: VOID $@5 dcl2
 
-   22 body-struct: LKEY decl-locales RKEY
+   12 dcl1: lv_ PYC
+   13     | LPAR la RPAR LKEY dls bqs RKEY
 
-   23 lista-args: args
+   14 dcl2: ID LPAR la RPAR LKEY dls bqs RKEY
 
-   24 args: args COMA arg
-   25     | arg
+   15 dcl3: ds
+   16     | ID dcl2
 
-   26 arg: tipo ID
+   17 dv: lv PYC
 
-   27 decl-locales: decl-locales decl-local
-   28             | decl-local
+   18 lv: ID lv_
 
-   29 decl-local: tipo decl-var
+   19 lv_: COMA ID lv_
+   20    | ε
 
-   30 bloque-sentencias: sentencias
+   21 tipo: INT
+   22     | FLOAT
+   23     | DOUBLE
+   24     | CHAR
 
-   31 sentencias: sentencias sentencia
-   32           | sentencia
+   25 ds: bs lv PYC
 
-   33 sentencia: sentIf
-   34          | sentWhile
-   35          | sentPuts
-   36          | sentPutw
-   37          | sentAsig
-   38          | sentBreak
-   39          | sentDo
-   40          | sentReturn
-   41          | sentScan
+   26 bs: LKEY dls RKEY
 
-   42 sentIf: IF LPAR expresion RPAR bloque-o-sentencia ELSE bloque-o-sentencia
-   43       | IF LPAR expresion RPAR bloque-o-sentencia
+   27 la: as
+   28   | ε
 
-   44 sentWhile: WHILE LPAR expresion RPAR bloque-o-sentencia
+   29 as: as COMA ar
+   30   | ar
 
-   45 sentDo: DO bloque-o-sentencia WHILE LPAR expresion RPAR
+   31 ar: tipo ID
 
-   46 sentAsig: parte-izq ASIG expresion PYC
+   32 dls: dls dl
+   33    | ε
 
-   47 parte-izq: ID
-   48          | ID PUNTO ID
+   34 dl: tipo dv
 
-   49 sentPutw: PRINT LPAR expresion RPAR PYC
+   35 bqs: ss
+   36    | ε
 
-   50 sentPuts: PRINT LPAR CADENA RPAR PYC
+   37 ss: ss s
+   38   | s
 
-   51 sentScan: SCAN LPAR ID RPAR PYC
+   39 s: si
+   40  | sw
+   41  | sps
+   42  | spw
+   43  | sa
+   44  | sb
+   45  | sd
+   46  | sr
+   47  | ssc
 
-   52 sentBreak: BREAK
+   48 si: IF LPAR o RPAR bos ELSE bos
+   49   | IF LPAR o RPAR bos
 
-   53 sentReturn: RETURN PYC
-   54           | RETURN expresion PYC
+   50 sw: WHILE LPAR o RPAR bos
 
-   55 expresion: expresion OR a
-   56          | a
+   51 sd: DO bos WHILE LPAR o RPAR PYC
 
-   57 a: a AND i
-   58  | i
+   52 sa: pi ASIG o PYC
 
-   59 i: i IGUAL r
-   60  | i DIF r
-   61  | r
+   53 pi: ID
+   54   | ID PUNTO ID
 
-   62 r: r MENOR mm
-   63  | r MENORI mm
-   64  | r MAYOR mm
-   65  | r MAYORI mm
-   66  | mm
+   55 spw: PRINT LPAR o RPAR PYC
 
-   67 mm: mm MAS md
-   68   | mm MENOS md
-   69   | md
+   56 sps: PRINT LPAR CADENA RPAR PYC
 
-   70 md: md DIV n
-   71   | md MUL n
-   72   | n
+   57 ssc: SCAN LPAR ID RPAR PYC
 
-   73 n: NOT n
-   74  | f
+   58 sb: BREAK PYC
 
-   75 f: LPAR expresion RPAR
-   76  | ID
-   77  | NUMERO
-   78  | ID LPAR lista_params RPAR
-   79  | ID PUNTO ID
-   80  | CARACTER
+   59 sr: RETURN PYC
 
-   81 lista_params: params
+   60 o: o OR a
+   61  | a
 
-   82 params: params COMA param
-   83       | param
+   62 a: a AND i
+   63  | i
 
-   84 param: expresion
+   64 i: i IGUAL r
+   65  | i DIF r
+   66  | r
 
-   85 bloque-o-sentencia: LKEY sentencias RKEY
-   86                   | sentencia
+   67 r: r MENOR mm
+   68  | r MENORI mm
+   69  | r MAYOR mm
+   70  | r MAYORI mm
+   71  | mm
+
+   72 mm: mm MAS md
+   73   | mm MENOS md
+   74   | md
+
+   75 md: md DIV n
+   76   | md MUL n
+   77   | n
+
+   78 n: NOT n
+   79  | f
+
+   80 f: LPAR o RPAR
+   81  | ID
+   82  | NUMERO
+   83  | ID LPAR lps RPAR
+   84  | ID PUNTO ID
+   85  | CARACTER
+
+   86 lps: pas
+   87    | ε
+
+   88 pas: pas COMA pa
+   89    | pa
+
+   90 pa: o
+
+   91 bos: LKEY ss RKEY
+   92    | s
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
-    ID (258) 4 6 9 12 14 15 16 26 47 48 51 76 78 79
-    NUMERO (259) 77
-    CADENA (260) 50
-    CARACTER (261) 80
-    IF (262) 42 43
-    WHILE (263) 44 45
-    DO (264) 45
-    PRINT (265) 49 50
-    SCAN (266) 51
-    BREAK (267) 52
-    RETURN (268) 53 54
-    CHAR (269) 20
-    INT (270) 17
-    FLOAT (271) 18
-    DOUBLE (272) 19
-    STRUCT (273) 5
-    VOID (274) 6
-    ESP (275)
-    LKEY (276) 6 8 9 22 85
-    RKEY (277) 6 8 9 22 85
-    PYC (278) 7 13 21 46 49 50 51 53 54
-    COMA (279) 15 24 82
-    PUNTO (280) 48 79
-    ASIG (281) 46
-    AND (282) 57
-    OR (283) 55
-    IGUAL (284) 59
-    DIF (285) 60
-    MENOR (286) 62
-    MAYOR (287) 64
-    MENORI (288) 63
-    MAYORI (289) 65
-    MAS (290) 67
-    MENOS (291) 68
-    MUL (292) 71
-    DIV (293) 70
-    NOT (294) 73
-    LPAR (295) 6 8 9 42 43 44 45 49 50 51 75 78
-    RPAR (296) 6 8 9 42 43 44 45 49 50 51 75 78
-    ELSE (297) 42
+    ID <std::string> (258) 7 14 16 18 19 31 53 54 57 81 83 84
+    NUMERO <std::string> (259) 82
+    CADENA (260) 56
+    CARACTER (261) 85
+    IF (262) 48 49
+    WHILE (263) 50 51
+    DO (264) 51
+    PRINT (265) 55 56
+    SCAN (266) 57
+    BREAK (267) 58
+    RETURN (268) 59
+    CHAR (269) 24
+    INT (270) 21
+    FLOAT (271) 22
+    DOUBLE (272) 23
+    STRUCT (273) 9
+    VOID (274) 11
+    LKEY (275) 13 14 26 91
+    RKEY (276) 13 14 26 91
+    PYC (277) 12 17 25 51 52 55 56 57 58 59
+    COMA (278) 19 29 88
+    PUNTO (279) 54 84
+    ASIG (280) 52
+    AND (281) 62
+    OR (282) 60
+    IGUAL (283) 64
+    DIF (284) 65
+    MENOR (285) 67
+    MAYOR (286) 69
+    MENORI (287) 68
+    MAYORI (288) 70
+    MAS (289) 72
+    MENOS (290) 73
+    MUL (291) 76
+    DIV (292) 75
+    NOT (293) 78
+    LPAR (294) 13 14 48 49 50 51 55 56 57 80 83
+    RPAR (295) 13 14 48 49 50 51 55 56 57 80 83
+    ELSE (296) 48
 
 
 Nonterminals, with rules where they appear
 
-    $accept (43)
+    $accept (42)
         on left: 0
-    programa (44)
-        on left: 1
+    p (43)
+        on left: 2
         on right: 0
-    declaraciones (45)
-        on left: 2 3
-        on right: 1 2
-    declaracion (46)
-        on left: 4 5 6
+    $@1 (44)
+        on left: 1
+        on right: 2
+    dd (45)
+        on left: 3 4
         on right: 2 3
-    dcl1 (47)
-        on left: 7 8
-        on right: 4
-    dcl2 (48)
-        on left: 9 10
-        on right: 12
-    dcl3 (49)
-        on left: 11 12
-        on right: 5
-    decl-var (50)
-        on left: 13
-        on right: 29
-    lista-var (51)
-        on left: 14 15 16
-        on right: 7 13 14 15 21
-    tipo <int> (52)
-        on left: 17 18 19 20
-        on right: 4 26 29
-    decl-struct (53)
-        on left: 21
-        on right: 10 11
-    body-struct (54)
-        on left: 22
-        on right: 21
-    lista-args (55)
-        on left: 23
-        on right: 6 8 9
-    args (56)
-        on left: 24 25
-        on right: 23 24
-    arg (57)
-        on left: 26
-        on right: 24 25
-    decl-locales (58)
-        on left: 27 28
-        on right: 6 8 9 22 27
-    decl-local (59)
-        on left: 29
-        on right: 27 28
-    bloque-sentencias (60)
-        on left: 30
-        on right: 6 8 9
-    sentencias (61)
-        on left: 31 32
-        on right: 30 31 85
-    sentencia (62)
-        on left: 33 34 35 36 37 38 39 40 41
-        on right: 31 32 86
-    sentIf (63)
-        on left: 42 43
-        on right: 33
-    sentWhile (64)
-        on left: 44
+    d (46)
+        on left: 7 9 11
+        on right: 3
+    $@2 (47)
+        on left: 5
+        on right: 7
+    $@3 (48)
+        on left: 6
+        on right: 7
+    $@4 (49)
+        on left: 8
+        on right: 9
+    $@5 (50)
+        on left: 10
+        on right: 11
+    dcl1 (51)
+        on left: 12 13
+        on right: 7
+    dcl2 (52)
+        on left: 14
+        on right: 11 16
+    dcl3 (53)
+        on left: 15 16
+        on right: 9
+    dv (54)
+        on left: 17
         on right: 34
-    sentDo (65)
-        on left: 45
+    lv (55)
+        on left: 18
+        on right: 17 25
+    lv_ (56)
+        on left: 19 20
+        on right: 12 18 19
+    tipo <int> (57)
+        on left: 21 22 23 24
+        on right: 7 31 34
+    ds (58)
+        on left: 25
+        on right: 15
+    bs (59)
+        on left: 26
+        on right: 25
+    la (60)
+        on left: 27 28
+        on right: 13 14
+    as (61)
+        on left: 29 30
+        on right: 27 29
+    ar (62)
+        on left: 31
+        on right: 29 30
+    dls (63)
+        on left: 32 33
+        on right: 13 14 26 32
+    dl (64)
+        on left: 34
+        on right: 32
+    bqs (65)
+        on left: 35 36
+        on right: 13 14
+    ss (66)
+        on left: 37 38
+        on right: 35 37 91
+    s (67)
+        on left: 39 40 41 42 43 44 45 46 47
+        on right: 37 38 92
+    si (68)
+        on left: 48 49
         on right: 39
-    sentAsig (66)
-        on left: 46
-        on right: 37
-    parte-izq (67)
-        on left: 47 48
-        on right: 46
-    sentPutw (68)
-        on left: 49
-        on right: 36
-    sentPuts (69)
+    sw (69)
         on left: 50
-        on right: 35
-    sentScan (70)
-        on left: 51
-        on right: 41
-    sentBreak (71)
-        on left: 52
-        on right: 38
-    sentReturn (72)
-        on left: 53 54
         on right: 40
-    expresion <Expresion> (73)
-        on left: 55 56
-        on right: 42 43 44 45 46 49 54 55 75 84
-    a <Expresion> (74)
-        on left: 57 58
-        on right: 55 56 57
-    i <Expresion> (75)
-        on left: 59 60 61
-        on right: 57 58 59 60
-    r <Expresion> (76)
-        on left: 62 63 64 65 66
-        on right: 59 60 61 62 63 64 65
-    mm <Expresion> (77)
-        on left: 67 68 69
-        on right: 62 63 64 65 66 67 68
-    md <Expresion> (78)
-        on left: 70 71 72
-        on right: 67 68 69 70 71
-    n <Expresion> (79)
-        on left: 73 74
-        on right: 70 71 72 73
-    f <Expresion> (80)
-        on left: 75 76 77 78 79 80
-        on right: 74
-    lista_params (81)
-        on left: 81
-        on right: 78
-    params (82)
-        on left: 82 83
-        on right: 81 82
-    param (83)
-        on left: 84
-        on right: 82 83
-    bloque-o-sentencia (84)
-        on left: 85 86
-        on right: 42 43 44 45
+    sd (70)
+        on left: 51
+        on right: 45
+    sa (71)
+        on left: 52
+        on right: 43
+    pi (72)
+        on left: 53 54
+        on right: 52
+    spw (73)
+        on left: 55
+        on right: 42
+    sps (74)
+        on left: 56
+        on right: 41
+    ssc (75)
+        on left: 57
+        on right: 47
+    sb (76)
+        on left: 58
+        on right: 44
+    sr (77)
+        on left: 59
+        on right: 46
+    o <Expresion> (78)
+        on left: 60 61
+        on right: 48 49 50 51 52 55 60 80 90
+    a <Expresion> (79)
+        on left: 62 63
+        on right: 60 61 62
+    i <Expresion> (80)
+        on left: 64 65 66
+        on right: 62 63 64 65
+    r <Expresion> (81)
+        on left: 67 68 69 70 71
+        on right: 64 65 66 67 68 69 70
+    mm <Expresion> (82)
+        on left: 72 73 74
+        on right: 67 68 69 70 71 72 73
+    md <Expresion> (83)
+        on left: 75 76 77
+        on right: 72 73 74 75 76
+    n <Expresion> (84)
+        on left: 78 79
+        on right: 75 76 77 78
+    f <Expresion> (85)
+        on left: 80 81 82 83 84 85
+        on right: 79
+    lps (86)
+        on left: 86 87
+        on right: 83
+    pas (87)
+        on left: 88 89
+        on right: 86 88
+    pa (88)
+        on left: 90
+        on right: 88 89
+    bos (89)
+        on left: 91 92
+        on right: 48 49 50 51
 
 
 State 0
 
-    0 $accept: . programa $end
+    0 $accept: • p $end
 
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
-    STRUCT  shift, and go to state 5
-    VOID    shift, and go to state 6
+    $default  reduce using rule 1 ($@1)
 
-    programa       go to state 7
-    declaraciones  go to state 8
-    declaracion    go to state 9
-    tipo           go to state 10
+    p    go to state 1
+    $@1  go to state 2
 
 
 State 1
 
-   20 tipo: CHAR .
+    0 $accept: p • $end
 
-    $default  reduce using rule 20 (tipo)
+    $end  shift, and go to state 3
 
 
 State 2
 
-   17 tipo: INT .
+    2 p: $@1 • dd
 
-    $default  reduce using rule 17 (tipo)
+    CHAR    shift, and go to state 4
+    INT     shift, and go to state 5
+    FLOAT   shift, and go to state 6
+    DOUBLE  shift, and go to state 7
+    STRUCT  shift, and go to state 8
+    VOID    shift, and go to state 9
+
+    $default  reduce using rule 4 (dd)
+
+    dd    go to state 10
+    d     go to state 11
+    tipo  go to state 12
 
 
 State 3
 
-   18 tipo: FLOAT .
-
-    $default  reduce using rule 18 (tipo)
-
-
-State 4
-
-   19 tipo: DOUBLE .
-
-    $default  reduce using rule 19 (tipo)
-
-
-State 5
-
-    5 declaracion: STRUCT . dcl3
-
-    ID    shift, and go to state 11
-    LKEY  shift, and go to state 12
-
-    dcl3         go to state 13
-    decl-struct  go to state 14
-    body-struct  go to state 15
-
-
-State 6
-
-    6 declaracion: VOID . ID LPAR lista-args RPAR LKEY decl-locales bloque-sentencias RKEY
-
-    ID  shift, and go to state 16
-
-
-State 7
-
-    0 $accept: programa . $end
-
-    $end  shift, and go to state 17
-
-
-State 8
-
-    1 programa: declaraciones .
-
-    $default  reduce using rule 1 (programa)
-
-
-State 9
-
-    2 declaraciones: declaracion . declaraciones
-    3              | declaracion .
-
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
-    STRUCT  shift, and go to state 5
-    VOID    shift, and go to state 6
-
-    $default  reduce using rule 3 (declaraciones)
-
-    declaraciones  go to state 18
-    declaracion    go to state 9
-    tipo           go to state 10
-
-
-State 10
-
-    4 declaracion: tipo . ID dcl1
-
-    ID  shift, and go to state 19
-
-
-State 11
-
-   12 dcl3: ID . dcl2
-
-    ID    shift, and go to state 20
-    LKEY  shift, and go to state 12
-
-    dcl2         go to state 21
-    decl-struct  go to state 22
-    body-struct  go to state 15
-
-
-State 12
-
-   22 body-struct: LKEY . decl-locales RKEY
-
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
-
-    tipo          go to state 23
-    decl-locales  go to state 24
-    decl-local    go to state 25
-
-
-State 13
-
-    5 declaracion: STRUCT dcl3 .
-
-    $default  reduce using rule 5 (declaracion)
-
-
-State 14
-
-   11 dcl3: decl-struct .
-
-    $default  reduce using rule 11 (dcl3)
-
-
-State 15
-
-   21 decl-struct: body-struct . lista-var PYC
-
-    ID    shift, and go to state 26
-    COMA  shift, and go to state 27
-
-    lista-var  go to state 28
-
-
-State 16
-
-    6 declaracion: VOID ID . LPAR lista-args RPAR LKEY decl-locales bloque-sentencias RKEY
-
-    LPAR  shift, and go to state 29
-
-
-State 17
-
-    0 $accept: programa $end .
+    0 $accept: p $end •
 
     $default  accept
 
 
+State 4
+
+   24 tipo: CHAR •
+
+    $default  reduce using rule 24 (tipo)
+
+
+State 5
+
+   21 tipo: INT •
+
+    $default  reduce using rule 21 (tipo)
+
+
+State 6
+
+   22 tipo: FLOAT •
+
+    $default  reduce using rule 22 (tipo)
+
+
+State 7
+
+   23 tipo: DOUBLE •
+
+    $default  reduce using rule 23 (tipo)
+
+
+State 8
+
+    9 d: STRUCT • $@4 dcl3
+
+    $default  reduce using rule 8 ($@4)
+
+    $@4  go to state 13
+
+
+State 9
+
+   11 d: VOID • $@5 dcl2
+
+    $default  reduce using rule 10 ($@5)
+
+    $@5  go to state 14
+
+
+State 10
+
+    2 p: $@1 dd •
+
+    $default  reduce using rule 2 (p)
+
+
+State 11
+
+    3 dd: d • dd
+
+    CHAR    shift, and go to state 4
+    INT     shift, and go to state 5
+    FLOAT   shift, and go to state 6
+    DOUBLE  shift, and go to state 7
+    STRUCT  shift, and go to state 8
+    VOID    shift, and go to state 9
+
+    $default  reduce using rule 4 (dd)
+
+    dd    go to state 15
+    d     go to state 11
+    tipo  go to state 12
+
+
+State 12
+
+    7 d: tipo • $@2 ID $@3 dcl1
+
+    $default  reduce using rule 5 ($@2)
+
+    $@2  go to state 16
+
+
+State 13
+
+    9 d: STRUCT $@4 • dcl3
+
+    ID    shift, and go to state 17
+    LKEY  shift, and go to state 18
+
+    dcl3  go to state 19
+    ds    go to state 20
+    bs    go to state 21
+
+
+State 14
+
+   11 d: VOID $@5 • dcl2
+
+    ID  shift, and go to state 22
+
+    dcl2  go to state 23
+
+
+State 15
+
+    3 dd: d dd •
+
+    $default  reduce using rule 3 (dd)
+
+
+State 16
+
+    7 d: tipo $@2 • ID $@3 dcl1
+
+    ID  shift, and go to state 24
+
+
+State 17
+
+   16 dcl3: ID • dcl2
+
+    ID  shift, and go to state 22
+
+    dcl2  go to state 25
+
+
 State 18
 
-    2 declaraciones: declaracion declaraciones .
+   26 bs: LKEY • dls RKEY
 
-    $default  reduce using rule 2 (declaraciones)
+    $default  reduce using rule 33 (dls)
+
+    dls  go to state 26
 
 
 State 19
 
-    4 declaracion: tipo ID . dcl1
+    9 d: STRUCT $@4 dcl3 •
 
-    ID    shift, and go to state 26
-    COMA  shift, and go to state 27
-    LPAR  shift, and go to state 30
-
-    dcl1       go to state 31
-    lista-var  go to state 32
+    $default  reduce using rule 9 (d)
 
 
 State 20
 
-    9 dcl2: ID . LPAR lista-args RPAR LKEY decl-locales bloque-sentencias RKEY
+   15 dcl3: ds •
 
-    LPAR  shift, and go to state 33
+    $default  reduce using rule 15 (dcl3)
 
 
 State 21
 
-   12 dcl3: ID dcl2 .
+   25 ds: bs • lv PYC
 
-    $default  reduce using rule 12 (dcl3)
+    ID  shift, and go to state 27
+
+    lv  go to state 28
 
 
 State 22
 
-   10 dcl2: decl-struct .
+   14 dcl2: ID • LPAR la RPAR LKEY dls bqs RKEY
 
-    $default  reduce using rule 10 (dcl2)
+    LPAR  shift, and go to state 29
 
 
 State 23
 
-   29 decl-local: tipo . decl-var
+   11 d: VOID $@5 dcl2 •
 
-    ID    shift, and go to state 26
-    COMA  shift, and go to state 27
-
-    decl-var   go to state 34
-    lista-var  go to state 35
+    $default  reduce using rule 11 (d)
 
 
 State 24
 
-   22 body-struct: LKEY decl-locales . RKEY
-   27 decl-locales: decl-locales . decl-local
+    7 d: tipo $@2 ID • $@3 dcl1
 
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
-    RKEY    shift, and go to state 36
+    $default  reduce using rule 6 ($@3)
 
-    tipo        go to state 23
-    decl-local  go to state 37
+    $@3  go to state 30
 
 
 State 25
 
-   28 decl-locales: decl-local .
+   16 dcl3: ID dcl2 •
 
-    $default  reduce using rule 28 (decl-locales)
+    $default  reduce using rule 16 (dcl3)
 
 
 State 26
 
-   14 lista-var: ID . lista-var
-   16          | ID .
+   26 bs: LKEY dls • RKEY
+   32 dls: dls • dl
 
-    ID    shift, and go to state 26
-    COMA  shift, and go to state 27
+    CHAR    shift, and go to state 4
+    INT     shift, and go to state 5
+    FLOAT   shift, and go to state 6
+    DOUBLE  shift, and go to state 7
+    RKEY    shift, and go to state 31
 
-    $default  reduce using rule 16 (lista-var)
-
-    lista-var  go to state 38
+    tipo  go to state 32
+    dl    go to state 33
 
 
 State 27
 
-   15 lista-var: COMA . ID lista-var
+   18 lv: ID • lv_
 
-    ID  shift, and go to state 39
+    COMA  shift, and go to state 34
+
+    $default  reduce using rule 20 (lv_)
+
+    lv_  go to state 35
 
 
 State 28
 
-   21 decl-struct: body-struct lista-var . PYC
+   25 ds: bs lv • PYC
 
-    PYC  shift, and go to state 40
+    PYC  shift, and go to state 36
 
 
 State 29
 
-    6 declaracion: VOID ID LPAR . lista-args RPAR LKEY decl-locales bloque-sentencias RKEY
+   14 dcl2: ID LPAR • la RPAR LKEY dls bqs RKEY
 
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
+    CHAR    shift, and go to state 4
+    INT     shift, and go to state 5
+    FLOAT   shift, and go to state 6
+    DOUBLE  shift, and go to state 7
 
-    tipo        go to state 41
-    lista-args  go to state 42
-    args        go to state 43
-    arg         go to state 44
+    $default  reduce using rule 28 (la)
+
+    tipo  go to state 37
+    la    go to state 38
+    as    go to state 39
+    ar    go to state 40
 
 
 State 30
 
-    8 dcl1: LPAR . lista-args RPAR LKEY decl-locales bloque-sentencias RKEY
+    7 d: tipo $@2 ID $@3 • dcl1
 
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
+    COMA  shift, and go to state 34
+    LPAR  shift, and go to state 41
 
-    tipo        go to state 41
-    lista-args  go to state 45
-    args        go to state 43
-    arg         go to state 44
+    $default  reduce using rule 20 (lv_)
+
+    dcl1  go to state 42
+    lv_   go to state 43
 
 
 State 31
 
-    4 declaracion: tipo ID dcl1 .
+   26 bs: LKEY dls RKEY •
 
-    $default  reduce using rule 4 (declaracion)
+    $default  reduce using rule 26 (bs)
 
 
 State 32
 
-    7 dcl1: lista-var . PYC
+   34 dl: tipo • dv
 
-    PYC  shift, and go to state 46
+    ID  shift, and go to state 27
+
+    dv  go to state 44
+    lv  go to state 45
 
 
 State 33
 
-    9 dcl2: ID LPAR . lista-args RPAR LKEY decl-locales bloque-sentencias RKEY
+   32 dls: dls dl •
 
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
-
-    tipo        go to state 41
-    lista-args  go to state 47
-    args        go to state 43
-    arg         go to state 44
+    $default  reduce using rule 32 (dls)
 
 
 State 34
 
-   29 decl-local: tipo decl-var .
+   19 lv_: COMA • ID lv_
 
-    $default  reduce using rule 29 (decl-local)
+    ID  shift, and go to state 46
 
 
 State 35
 
-   13 decl-var: lista-var . PYC
+   18 lv: ID lv_ •
 
-    PYC  shift, and go to state 48
+    $default  reduce using rule 18 (lv)
 
 
 State 36
 
-   22 body-struct: LKEY decl-locales RKEY .
+   25 ds: bs lv PYC •
 
-    $default  reduce using rule 22 (body-struct)
+    $default  reduce using rule 25 (ds)
 
 
 State 37
 
-   27 decl-locales: decl-locales decl-local .
+   31 ar: tipo • ID
 
-    $default  reduce using rule 27 (decl-locales)
+    ID  shift, and go to state 47
 
 
 State 38
 
-   14 lista-var: ID lista-var .
+   14 dcl2: ID LPAR la • RPAR LKEY dls bqs RKEY
 
-    $default  reduce using rule 14 (lista-var)
+    RPAR  shift, and go to state 48
 
 
 State 39
 
-   15 lista-var: COMA ID . lista-var
+   27 la: as •
+   29 as: as • COMA ar
 
-    ID    shift, and go to state 26
-    COMA  shift, and go to state 27
+    COMA  shift, and go to state 49
 
-    lista-var  go to state 49
+    $default  reduce using rule 27 (la)
 
 
 State 40
 
-   21 decl-struct: body-struct lista-var PYC .
+   30 as: ar •
 
-    $default  reduce using rule 21 (decl-struct)
+    $default  reduce using rule 30 (as)
 
 
 State 41
 
-   26 arg: tipo . ID
+   13 dcl1: LPAR • la RPAR LKEY dls bqs RKEY
 
-    ID  shift, and go to state 50
+    CHAR    shift, and go to state 4
+    INT     shift, and go to state 5
+    FLOAT   shift, and go to state 6
+    DOUBLE  shift, and go to state 7
+
+    $default  reduce using rule 28 (la)
+
+    tipo  go to state 37
+    la    go to state 50
+    as    go to state 39
+    ar    go to state 40
 
 
 State 42
 
-    6 declaracion: VOID ID LPAR lista-args . RPAR LKEY decl-locales bloque-sentencias RKEY
+    7 d: tipo $@2 ID $@3 dcl1 •
 
-    RPAR  shift, and go to state 51
+    $default  reduce using rule 7 (d)
 
 
 State 43
 
-   23 lista-args: args .
-   24 args: args . COMA arg
+   12 dcl1: lv_ • PYC
 
-    COMA  shift, and go to state 52
-
-    $default  reduce using rule 23 (lista-args)
+    PYC  shift, and go to state 51
 
 
 State 44
 
-   25 args: arg .
+   34 dl: tipo dv •
 
-    $default  reduce using rule 25 (args)
+    $default  reduce using rule 34 (dl)
 
 
 State 45
 
-    8 dcl1: LPAR lista-args . RPAR LKEY decl-locales bloque-sentencias RKEY
+   17 dv: lv • PYC
 
-    RPAR  shift, and go to state 53
+    PYC  shift, and go to state 52
 
 
 State 46
 
-    7 dcl1: lista-var PYC .
+   19 lv_: COMA ID • lv_
 
-    $default  reduce using rule 7 (dcl1)
+    COMA  shift, and go to state 34
+
+    $default  reduce using rule 20 (lv_)
+
+    lv_  go to state 53
 
 
 State 47
 
-    9 dcl2: ID LPAR lista-args . RPAR LKEY decl-locales bloque-sentencias RKEY
+   31 ar: tipo ID •
 
-    RPAR  shift, and go to state 54
+    $default  reduce using rule 31 (ar)
 
 
 State 48
 
-   13 decl-var: lista-var PYC .
+   14 dcl2: ID LPAR la RPAR • LKEY dls bqs RKEY
 
-    $default  reduce using rule 13 (decl-var)
+    LKEY  shift, and go to state 54
 
 
 State 49
 
-   15 lista-var: COMA ID lista-var .
+   29 as: as COMA • ar
 
-    $default  reduce using rule 15 (lista-var)
+    CHAR    shift, and go to state 4
+    INT     shift, and go to state 5
+    FLOAT   shift, and go to state 6
+    DOUBLE  shift, and go to state 7
+
+    tipo  go to state 37
+    ar    go to state 55
 
 
 State 50
 
-   26 arg: tipo ID .
+   13 dcl1: LPAR la • RPAR LKEY dls bqs RKEY
 
-    $default  reduce using rule 26 (arg)
+    RPAR  shift, and go to state 56
 
 
 State 51
 
-    6 declaracion: VOID ID LPAR lista-args RPAR . LKEY decl-locales bloque-sentencias RKEY
+   12 dcl1: lv_ PYC •
 
-    LKEY  shift, and go to state 55
+    $default  reduce using rule 12 (dcl1)
 
 
 State 52
 
-   24 args: args COMA . arg
+   17 dv: lv PYC •
 
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
-
-    tipo  go to state 41
-    arg   go to state 56
+    $default  reduce using rule 17 (dv)
 
 
 State 53
 
-    8 dcl1: LPAR lista-args RPAR . LKEY decl-locales bloque-sentencias RKEY
+   19 lv_: COMA ID lv_ •
 
-    LKEY  shift, and go to state 57
+    $default  reduce using rule 19 (lv_)
 
 
 State 54
 
-    9 dcl2: ID LPAR lista-args RPAR . LKEY decl-locales bloque-sentencias RKEY
+   14 dcl2: ID LPAR la RPAR LKEY • dls bqs RKEY
 
-    LKEY  shift, and go to state 58
+    $default  reduce using rule 33 (dls)
+
+    dls  go to state 57
 
 
 State 55
 
-    6 declaracion: VOID ID LPAR lista-args RPAR LKEY . decl-locales bloque-sentencias RKEY
+   29 as: as COMA ar •
 
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
-
-    tipo          go to state 23
-    decl-locales  go to state 59
-    decl-local    go to state 25
+    $default  reduce using rule 29 (as)
 
 
 State 56
 
-   24 args: args COMA arg .
+   13 dcl1: LPAR la RPAR • LKEY dls bqs RKEY
 
-    $default  reduce using rule 24 (args)
+    LKEY  shift, and go to state 58
 
 
 State 57
 
-    8 dcl1: LPAR lista-args RPAR LKEY . decl-locales bloque-sentencias RKEY
+   14 dcl2: ID LPAR la RPAR LKEY dls • bqs RKEY
+   32 dls: dls • dl
 
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
+    ID      shift, and go to state 59
+    IF      shift, and go to state 60
+    WHILE   shift, and go to state 61
+    DO      shift, and go to state 62
+    PRINT   shift, and go to state 63
+    SCAN    shift, and go to state 64
+    BREAK   shift, and go to state 65
+    RETURN  shift, and go to state 66
+    CHAR    shift, and go to state 4
+    INT     shift, and go to state 5
+    FLOAT   shift, and go to state 6
+    DOUBLE  shift, and go to state 7
 
-    tipo          go to state 23
-    decl-locales  go to state 60
-    decl-local    go to state 25
+    $default  reduce using rule 36 (bqs)
+
+    tipo  go to state 32
+    dl    go to state 33
+    bqs   go to state 67
+    ss    go to state 68
+    s     go to state 69
+    si    go to state 70
+    sw    go to state 71
+    sd    go to state 72
+    sa    go to state 73
+    pi    go to state 74
+    spw   go to state 75
+    sps   go to state 76
+    ssc   go to state 77
+    sb    go to state 78
+    sr    go to state 79
 
 
 State 58
 
-    9 dcl2: ID LPAR lista-args RPAR LKEY . decl-locales bloque-sentencias RKEY
+   13 dcl1: LPAR la RPAR LKEY • dls bqs RKEY
 
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
+    $default  reduce using rule 33 (dls)
 
-    tipo          go to state 23
-    decl-locales  go to state 61
-    decl-local    go to state 25
+    dls  go to state 80
 
 
 State 59
 
-    6 declaracion: VOID ID LPAR lista-args RPAR LKEY decl-locales . bloque-sentencias RKEY
-   27 decl-locales: decl-locales . decl-local
+   53 pi: ID •
+   54   | ID • PUNTO ID
 
-    ID      shift, and go to state 62
-    IF      shift, and go to state 63
-    WHILE   shift, and go to state 64
-    DO      shift, and go to state 65
-    PRINT   shift, and go to state 66
-    SCAN    shift, and go to state 67
-    BREAK   shift, and go to state 68
-    RETURN  shift, and go to state 69
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
+    PUNTO  shift, and go to state 81
 
-    tipo               go to state 23
-    decl-local         go to state 37
-    bloque-sentencias  go to state 70
-    sentencias         go to state 71
-    sentencia          go to state 72
-    sentIf             go to state 73
-    sentWhile          go to state 74
-    sentDo             go to state 75
-    sentAsig           go to state 76
-    parte-izq          go to state 77
-    sentPutw           go to state 78
-    sentPuts           go to state 79
-    sentScan           go to state 80
-    sentBreak          go to state 81
-    sentReturn         go to state 82
+    $default  reduce using rule 53 (pi)
 
 
 State 60
 
-    8 dcl1: LPAR lista-args RPAR LKEY decl-locales . bloque-sentencias RKEY
-   27 decl-locales: decl-locales . decl-local
+   48 si: IF • LPAR o RPAR bos ELSE bos
+   49   | IF • LPAR o RPAR bos
 
-    ID      shift, and go to state 62
-    IF      shift, and go to state 63
-    WHILE   shift, and go to state 64
-    DO      shift, and go to state 65
-    PRINT   shift, and go to state 66
-    SCAN    shift, and go to state 67
-    BREAK   shift, and go to state 68
-    RETURN  shift, and go to state 69
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
-
-    tipo               go to state 23
-    decl-local         go to state 37
-    bloque-sentencias  go to state 83
-    sentencias         go to state 71
-    sentencia          go to state 72
-    sentIf             go to state 73
-    sentWhile          go to state 74
-    sentDo             go to state 75
-    sentAsig           go to state 76
-    parte-izq          go to state 77
-    sentPutw           go to state 78
-    sentPuts           go to state 79
-    sentScan           go to state 80
-    sentBreak          go to state 81
-    sentReturn         go to state 82
+    LPAR  shift, and go to state 82
 
 
 State 61
 
-    9 dcl2: ID LPAR lista-args RPAR LKEY decl-locales . bloque-sentencias RKEY
-   27 decl-locales: decl-locales . decl-local
+   50 sw: WHILE • LPAR o RPAR bos
 
-    ID      shift, and go to state 62
-    IF      shift, and go to state 63
-    WHILE   shift, and go to state 64
-    DO      shift, and go to state 65
-    PRINT   shift, and go to state 66
-    SCAN    shift, and go to state 67
-    BREAK   shift, and go to state 68
-    RETURN  shift, and go to state 69
-    CHAR    shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    DOUBLE  shift, and go to state 4
-
-    tipo               go to state 23
-    decl-local         go to state 37
-    bloque-sentencias  go to state 84
-    sentencias         go to state 71
-    sentencia          go to state 72
-    sentIf             go to state 73
-    sentWhile          go to state 74
-    sentDo             go to state 75
-    sentAsig           go to state 76
-    parte-izq          go to state 77
-    sentPutw           go to state 78
-    sentPuts           go to state 79
-    sentScan           go to state 80
-    sentBreak          go to state 81
-    sentReturn         go to state 82
+    LPAR  shift, and go to state 83
 
 
 State 62
 
-   47 parte-izq: ID .
-   48          | ID . PUNTO ID
+   51 sd: DO • bos WHILE LPAR o RPAR PYC
 
-    PUNTO  shift, and go to state 85
+    ID      shift, and go to state 59
+    IF      shift, and go to state 60
+    WHILE   shift, and go to state 61
+    DO      shift, and go to state 62
+    PRINT   shift, and go to state 63
+    SCAN    shift, and go to state 64
+    BREAK   shift, and go to state 65
+    RETURN  shift, and go to state 66
+    LKEY    shift, and go to state 84
 
-    $default  reduce using rule 47 (parte-izq)
+    s    go to state 85
+    si   go to state 70
+    sw   go to state 71
+    sd   go to state 72
+    sa   go to state 73
+    pi   go to state 74
+    spw  go to state 75
+    sps  go to state 76
+    ssc  go to state 77
+    sb   go to state 78
+    sr   go to state 79
+    bos  go to state 86
 
 
 State 63
 
-   42 sentIf: IF . LPAR expresion RPAR bloque-o-sentencia ELSE bloque-o-sentencia
-   43       | IF . LPAR expresion RPAR bloque-o-sentencia
-
-    LPAR  shift, and go to state 86
-
-
-State 64
-
-   44 sentWhile: WHILE . LPAR expresion RPAR bloque-o-sentencia
+   55 spw: PRINT • LPAR o RPAR PYC
+   56 sps: PRINT • LPAR CADENA RPAR PYC
 
     LPAR  shift, and go to state 87
 
 
+State 64
+
+   57 ssc: SCAN • LPAR ID RPAR PYC
+
+    LPAR  shift, and go to state 88
+
+
 State 65
 
-   45 sentDo: DO . bloque-o-sentencia WHILE LPAR expresion RPAR
+   58 sb: BREAK • PYC
 
-    ID      shift, and go to state 62
-    IF      shift, and go to state 63
-    WHILE   shift, and go to state 64
-    DO      shift, and go to state 65
-    PRINT   shift, and go to state 66
-    SCAN    shift, and go to state 67
-    BREAK   shift, and go to state 68
-    RETURN  shift, and go to state 69
-    LKEY    shift, and go to state 88
-
-    sentencia           go to state 89
-    sentIf              go to state 73
-    sentWhile           go to state 74
-    sentDo              go to state 75
-    sentAsig            go to state 76
-    parte-izq           go to state 77
-    sentPutw            go to state 78
-    sentPuts            go to state 79
-    sentScan            go to state 80
-    sentBreak           go to state 81
-    sentReturn          go to state 82
-    bloque-o-sentencia  go to state 90
+    PYC  shift, and go to state 89
 
 
 State 66
 
-   49 sentPutw: PRINT . LPAR expresion RPAR PYC
-   50 sentPuts: PRINT . LPAR CADENA RPAR PYC
+   59 sr: RETURN • PYC
 
-    LPAR  shift, and go to state 91
+    PYC  shift, and go to state 90
 
 
 State 67
 
-   51 sentScan: SCAN . LPAR ID RPAR PYC
+   14 dcl2: ID LPAR la RPAR LKEY dls bqs • RKEY
 
-    LPAR  shift, and go to state 92
+    RKEY  shift, and go to state 91
 
 
 State 68
 
-   52 sentBreak: BREAK .
+   35 bqs: ss •
+   37 ss: ss • s
 
-    $default  reduce using rule 52 (sentBreak)
+    ID      shift, and go to state 59
+    IF      shift, and go to state 60
+    WHILE   shift, and go to state 61
+    DO      shift, and go to state 62
+    PRINT   shift, and go to state 63
+    SCAN    shift, and go to state 64
+    BREAK   shift, and go to state 65
+    RETURN  shift, and go to state 66
+
+    $default  reduce using rule 35 (bqs)
+
+    s    go to state 92
+    si   go to state 70
+    sw   go to state 71
+    sd   go to state 72
+    sa   go to state 73
+    pi   go to state 74
+    spw  go to state 75
+    sps  go to state 76
+    ssc  go to state 77
+    sb   go to state 78
+    sr   go to state 79
 
 
 State 69
 
-   53 sentReturn: RETURN . PYC
-   54           | RETURN . expresion PYC
+   38 ss: s •
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    PYC       shift, and go to state 96
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
-
-    expresion  go to state 99
-    a          go to state 100
-    i          go to state 101
-    r          go to state 102
-    mm         go to state 103
-    md         go to state 104
-    n          go to state 105
-    f          go to state 106
+    $default  reduce using rule 38 (ss)
 
 
 State 70
 
-    6 declaracion: VOID ID LPAR lista-args RPAR LKEY decl-locales bloque-sentencias . RKEY
+   39 s: si •
 
-    RKEY  shift, and go to state 107
+    $default  reduce using rule 39 (s)
 
 
 State 71
 
-   30 bloque-sentencias: sentencias .
-   31 sentencias: sentencias . sentencia
+   40 s: sw •
 
-    ID      shift, and go to state 62
-    IF      shift, and go to state 63
-    WHILE   shift, and go to state 64
-    DO      shift, and go to state 65
-    PRINT   shift, and go to state 66
-    SCAN    shift, and go to state 67
-    BREAK   shift, and go to state 68
-    RETURN  shift, and go to state 69
-
-    $default  reduce using rule 30 (bloque-sentencias)
-
-    sentencia   go to state 108
-    sentIf      go to state 73
-    sentWhile   go to state 74
-    sentDo      go to state 75
-    sentAsig    go to state 76
-    parte-izq   go to state 77
-    sentPutw    go to state 78
-    sentPuts    go to state 79
-    sentScan    go to state 80
-    sentBreak   go to state 81
-    sentReturn  go to state 82
+    $default  reduce using rule 40 (s)
 
 
 State 72
 
-   32 sentencias: sentencia .
+   45 s: sd •
 
-    $default  reduce using rule 32 (sentencias)
+    $default  reduce using rule 45 (s)
 
 
 State 73
 
-   33 sentencia: sentIf .
+   43 s: sa •
 
-    $default  reduce using rule 33 (sentencia)
+    $default  reduce using rule 43 (s)
 
 
 State 74
 
-   34 sentencia: sentWhile .
+   52 sa: pi • ASIG o PYC
 
-    $default  reduce using rule 34 (sentencia)
+    ASIG  shift, and go to state 93
 
 
 State 75
 
-   39 sentencia: sentDo .
+   42 s: spw •
 
-    $default  reduce using rule 39 (sentencia)
+    $default  reduce using rule 42 (s)
 
 
 State 76
 
-   37 sentencia: sentAsig .
+   41 s: sps •
 
-    $default  reduce using rule 37 (sentencia)
+    $default  reduce using rule 41 (s)
 
 
 State 77
 
-   46 sentAsig: parte-izq . ASIG expresion PYC
+   47 s: ssc •
 
-    ASIG  shift, and go to state 109
+    $default  reduce using rule 47 (s)
 
 
 State 78
 
-   36 sentencia: sentPutw .
+   44 s: sb •
 
-    $default  reduce using rule 36 (sentencia)
+    $default  reduce using rule 44 (s)
 
 
 State 79
 
-   35 sentencia: sentPuts .
+   46 s: sr •
 
-    $default  reduce using rule 35 (sentencia)
+    $default  reduce using rule 46 (s)
 
 
 State 80
 
-   41 sentencia: sentScan .
+   13 dcl1: LPAR la RPAR LKEY dls • bqs RKEY
+   32 dls: dls • dl
 
-    $default  reduce using rule 41 (sentencia)
+    ID      shift, and go to state 59
+    IF      shift, and go to state 60
+    WHILE   shift, and go to state 61
+    DO      shift, and go to state 62
+    PRINT   shift, and go to state 63
+    SCAN    shift, and go to state 64
+    BREAK   shift, and go to state 65
+    RETURN  shift, and go to state 66
+    CHAR    shift, and go to state 4
+    INT     shift, and go to state 5
+    FLOAT   shift, and go to state 6
+    DOUBLE  shift, and go to state 7
+
+    $default  reduce using rule 36 (bqs)
+
+    tipo  go to state 32
+    dl    go to state 33
+    bqs   go to state 94
+    ss    go to state 68
+    s     go to state 69
+    si    go to state 70
+    sw    go to state 71
+    sd    go to state 72
+    sa    go to state 73
+    pi    go to state 74
+    spw   go to state 75
+    sps   go to state 76
+    ssc   go to state 77
+    sb    go to state 78
+    sr    go to state 79
 
 
 State 81
 
-   38 sentencia: sentBreak .
+   54 pi: ID PUNTO • ID
 
-    $default  reduce using rule 38 (sentencia)
+    ID  shift, and go to state 95
 
 
 State 82
 
-   40 sentencia: sentReturn .
+   48 si: IF LPAR • o RPAR bos ELSE bos
+   49   | IF LPAR • o RPAR bos
 
-    $default  reduce using rule 40 (sentencia)
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
+
+    o   go to state 101
+    a   go to state 102
+    i   go to state 103
+    r   go to state 104
+    mm  go to state 105
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 83
 
-    8 dcl1: LPAR lista-args RPAR LKEY decl-locales bloque-sentencias . RKEY
+   50 sw: WHILE LPAR • o RPAR bos
 
-    RKEY  shift, and go to state 110
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
+
+    o   go to state 109
+    a   go to state 102
+    i   go to state 103
+    r   go to state 104
+    mm  go to state 105
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 84
 
-    9 dcl2: ID LPAR lista-args RPAR LKEY decl-locales bloque-sentencias . RKEY
+   91 bos: LKEY • ss RKEY
 
-    RKEY  shift, and go to state 111
+    ID      shift, and go to state 59
+    IF      shift, and go to state 60
+    WHILE   shift, and go to state 61
+    DO      shift, and go to state 62
+    PRINT   shift, and go to state 63
+    SCAN    shift, and go to state 64
+    BREAK   shift, and go to state 65
+    RETURN  shift, and go to state 66
+
+    ss   go to state 110
+    s    go to state 69
+    si   go to state 70
+    sw   go to state 71
+    sd   go to state 72
+    sa   go to state 73
+    pi   go to state 74
+    spw  go to state 75
+    sps  go to state 76
+    ssc  go to state 77
+    sb   go to state 78
+    sr   go to state 79
 
 
 State 85
 
-   48 parte-izq: ID PUNTO . ID
+   92 bos: s •
 
-    ID  shift, and go to state 112
+    $default  reduce using rule 92 (bos)
 
 
 State 86
 
-   42 sentIf: IF LPAR . expresion RPAR bloque-o-sentencia ELSE bloque-o-sentencia
-   43       | IF LPAR . expresion RPAR bloque-o-sentencia
+   51 sd: DO bos • WHILE LPAR o RPAR PYC
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
-
-    expresion  go to state 113
-    a          go to state 100
-    i          go to state 101
-    r          go to state 102
-    mm         go to state 103
-    md         go to state 104
-    n          go to state 105
-    f          go to state 106
+    WHILE  shift, and go to state 111
 
 
 State 87
 
-   44 sentWhile: WHILE LPAR . expresion RPAR bloque-o-sentencia
+   55 spw: PRINT LPAR • o RPAR PYC
+   56 sps: PRINT LPAR • CADENA RPAR PYC
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CADENA    shift, and go to state 112
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
-    expresion  go to state 114
-    a          go to state 100
-    i          go to state 101
-    r          go to state 102
-    mm         go to state 103
-    md         go to state 104
-    n          go to state 105
-    f          go to state 106
+    o   go to state 113
+    a   go to state 102
+    i   go to state 103
+    r   go to state 104
+    mm  go to state 105
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 88
 
-   85 bloque-o-sentencia: LKEY . sentencias RKEY
+   57 ssc: SCAN LPAR • ID RPAR PYC
 
-    ID      shift, and go to state 62
-    IF      shift, and go to state 63
-    WHILE   shift, and go to state 64
-    DO      shift, and go to state 65
-    PRINT   shift, and go to state 66
-    SCAN    shift, and go to state 67
-    BREAK   shift, and go to state 68
-    RETURN  shift, and go to state 69
-
-    sentencias  go to state 115
-    sentencia   go to state 72
-    sentIf      go to state 73
-    sentWhile   go to state 74
-    sentDo      go to state 75
-    sentAsig    go to state 76
-    parte-izq   go to state 77
-    sentPutw    go to state 78
-    sentPuts    go to state 79
-    sentScan    go to state 80
-    sentBreak   go to state 81
-    sentReturn  go to state 82
+    ID  shift, and go to state 114
 
 
 State 89
 
-   86 bloque-o-sentencia: sentencia .
+   58 sb: BREAK PYC •
 
-    $default  reduce using rule 86 (bloque-o-sentencia)
+    $default  reduce using rule 58 (sb)
 
 
 State 90
 
-   45 sentDo: DO bloque-o-sentencia . WHILE LPAR expresion RPAR
+   59 sr: RETURN PYC •
 
-    WHILE  shift, and go to state 116
+    $default  reduce using rule 59 (sr)
 
 
 State 91
 
-   49 sentPutw: PRINT LPAR . expresion RPAR PYC
-   50 sentPuts: PRINT LPAR . CADENA RPAR PYC
+   14 dcl2: ID LPAR la RPAR LKEY dls bqs RKEY •
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CADENA    shift, and go to state 117
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
-
-    expresion  go to state 118
-    a          go to state 100
-    i          go to state 101
-    r          go to state 102
-    mm         go to state 103
-    md         go to state 104
-    n          go to state 105
-    f          go to state 106
+    $default  reduce using rule 14 (dcl2)
 
 
 State 92
 
-   51 sentScan: SCAN LPAR . ID RPAR PYC
+   37 ss: ss s •
 
-    ID  shift, and go to state 119
+    $default  reduce using rule 37 (ss)
 
 
 State 93
 
-   76 f: ID .
-   78  | ID . LPAR lista_params RPAR
-   79  | ID . PUNTO ID
+   52 sa: pi ASIG • o PYC
 
-    PUNTO  shift, and go to state 120
-    LPAR   shift, and go to state 121
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
-    $default  reduce using rule 76 (f)
+    o   go to state 115
+    a   go to state 102
+    i   go to state 103
+    r   go to state 104
+    mm  go to state 105
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 94
 
-   77 f: NUMERO .
+   13 dcl1: LPAR la RPAR LKEY dls bqs • RKEY
 
-    $default  reduce using rule 77 (f)
+    RKEY  shift, and go to state 116
 
 
 State 95
 
-   80 f: CARACTER .
+   54 pi: ID PUNTO ID •
 
-    $default  reduce using rule 80 (f)
+    $default  reduce using rule 54 (pi)
 
 
 State 96
 
-   53 sentReturn: RETURN PYC .
+   81 f: ID •
+   83  | ID • LPAR lps RPAR
+   84  | ID • PUNTO ID
 
-    $default  reduce using rule 53 (sentReturn)
+    PUNTO  shift, and go to state 117
+    LPAR   shift, and go to state 118
+
+    $default  reduce using rule 81 (f)
 
 
 State 97
 
-   73 n: NOT . n
+   82 f: NUMERO •
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
-
-    n  go to state 122
-    f  go to state 106
+    $default  reduce using rule 82 (f)
 
 
 State 98
 
-   75 f: LPAR . expresion RPAR
+   85 f: CARACTER •
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
-
-    expresion  go to state 123
-    a          go to state 100
-    i          go to state 101
-    r          go to state 102
-    mm         go to state 103
-    md         go to state 104
-    n          go to state 105
-    f          go to state 106
+    $default  reduce using rule 85 (f)
 
 
 State 99
 
-   54 sentReturn: RETURN expresion . PYC
-   55 expresion: expresion . OR a
+   78 n: NOT • n
 
-    PYC  shift, and go to state 124
-    OR   shift, and go to state 125
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
+
+    n  go to state 119
+    f  go to state 108
 
 
 State 100
 
-   56 expresion: a .
-   57 a: a . AND i
+   80 f: LPAR • o RPAR
 
-    AND  shift, and go to state 126
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
-    $default  reduce using rule 56 (expresion)
+    o   go to state 120
+    a   go to state 102
+    i   go to state 103
+    r   go to state 104
+    mm  go to state 105
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 101
 
-   58 a: i .
-   59 i: i . IGUAL r
-   60  | i . DIF r
+   48 si: IF LPAR o • RPAR bos ELSE bos
+   49   | IF LPAR o • RPAR bos
+   60 o: o • OR a
 
-    IGUAL  shift, and go to state 127
-    DIF    shift, and go to state 128
-
-    $default  reduce using rule 58 (a)
+    OR    shift, and go to state 121
+    RPAR  shift, and go to state 122
 
 
 State 102
 
-   61 i: r .
-   62 r: r . MENOR mm
-   63  | r . MENORI mm
-   64  | r . MAYOR mm
-   65  | r . MAYORI mm
+   61 o: a •
+   62 a: a • AND i
 
-    MENOR   shift, and go to state 129
-    MAYOR   shift, and go to state 130
-    MENORI  shift, and go to state 131
-    MAYORI  shift, and go to state 132
+    AND  shift, and go to state 123
 
-    $default  reduce using rule 61 (i)
+    $default  reduce using rule 61 (o)
 
 
 State 103
 
-   66 r: mm .
-   67 mm: mm . MAS md
-   68   | mm . MENOS md
+   63 a: i •
+   64 i: i • IGUAL r
+   65  | i • DIF r
 
-    MAS    shift, and go to state 133
-    MENOS  shift, and go to state 134
+    IGUAL  shift, and go to state 124
+    DIF    shift, and go to state 125
 
-    $default  reduce using rule 66 (r)
+    $default  reduce using rule 63 (a)
 
 
 State 104
 
-   69 mm: md .
-   70 md: md . DIV n
-   71   | md . MUL n
+   66 i: r •
+   67 r: r • MENOR mm
+   68  | r • MENORI mm
+   69  | r • MAYOR mm
+   70  | r • MAYORI mm
 
-    MUL  shift, and go to state 135
-    DIV  shift, and go to state 136
+    MENOR   shift, and go to state 126
+    MAYOR   shift, and go to state 127
+    MENORI  shift, and go to state 128
+    MAYORI  shift, and go to state 129
 
-    $default  reduce using rule 69 (mm)
+    $default  reduce using rule 66 (i)
 
 
 State 105
 
-   72 md: n .
+   71 r: mm •
+   72 mm: mm • MAS md
+   73   | mm • MENOS md
 
-    $default  reduce using rule 72 (md)
+    MAS    shift, and go to state 130
+    MENOS  shift, and go to state 131
+
+    $default  reduce using rule 71 (r)
 
 
 State 106
 
-   74 n: f .
+   74 mm: md •
+   75 md: md • DIV n
+   76   | md • MUL n
 
-    $default  reduce using rule 74 (n)
+    MUL  shift, and go to state 132
+    DIV  shift, and go to state 133
+
+    $default  reduce using rule 74 (mm)
 
 
 State 107
 
-    6 declaracion: VOID ID LPAR lista-args RPAR LKEY decl-locales bloque-sentencias RKEY .
+   77 md: n •
 
-    $default  reduce using rule 6 (declaracion)
+    $default  reduce using rule 77 (md)
 
 
 State 108
 
-   31 sentencias: sentencias sentencia .
+   79 n: f •
 
-    $default  reduce using rule 31 (sentencias)
+    $default  reduce using rule 79 (n)
 
 
 State 109
 
-   46 sentAsig: parte-izq ASIG . expresion PYC
+   50 sw: WHILE LPAR o • RPAR bos
+   60 o: o • OR a
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
-
-    expresion  go to state 137
-    a          go to state 100
-    i          go to state 101
-    r          go to state 102
-    mm         go to state 103
-    md         go to state 104
-    n          go to state 105
-    f          go to state 106
+    OR    shift, and go to state 121
+    RPAR  shift, and go to state 134
 
 
 State 110
 
-    8 dcl1: LPAR lista-args RPAR LKEY decl-locales bloque-sentencias RKEY .
+   37 ss: ss • s
+   91 bos: LKEY ss • RKEY
 
-    $default  reduce using rule 8 (dcl1)
+    ID      shift, and go to state 59
+    IF      shift, and go to state 60
+    WHILE   shift, and go to state 61
+    DO      shift, and go to state 62
+    PRINT   shift, and go to state 63
+    SCAN    shift, and go to state 64
+    BREAK   shift, and go to state 65
+    RETURN  shift, and go to state 66
+    RKEY    shift, and go to state 135
+
+    s    go to state 92
+    si   go to state 70
+    sw   go to state 71
+    sd   go to state 72
+    sa   go to state 73
+    pi   go to state 74
+    spw  go to state 75
+    sps  go to state 76
+    ssc  go to state 77
+    sb   go to state 78
+    sr   go to state 79
 
 
 State 111
 
-    9 dcl2: ID LPAR lista-args RPAR LKEY decl-locales bloque-sentencias RKEY .
+   51 sd: DO bos WHILE • LPAR o RPAR PYC
 
-    $default  reduce using rule 9 (dcl2)
+    LPAR  shift, and go to state 136
 
 
 State 112
 
-   48 parte-izq: ID PUNTO ID .
+   56 sps: PRINT LPAR CADENA • RPAR PYC
 
-    $default  reduce using rule 48 (parte-izq)
+    RPAR  shift, and go to state 137
 
 
 State 113
 
-   42 sentIf: IF LPAR expresion . RPAR bloque-o-sentencia ELSE bloque-o-sentencia
-   43       | IF LPAR expresion . RPAR bloque-o-sentencia
-   55 expresion: expresion . OR a
+   55 spw: PRINT LPAR o • RPAR PYC
+   60 o: o • OR a
 
-    OR    shift, and go to state 125
+    OR    shift, and go to state 121
     RPAR  shift, and go to state 138
 
 
 State 114
 
-   44 sentWhile: WHILE LPAR expresion . RPAR bloque-o-sentencia
-   55 expresion: expresion . OR a
+   57 ssc: SCAN LPAR ID • RPAR PYC
 
-    OR    shift, and go to state 125
     RPAR  shift, and go to state 139
 
 
 State 115
 
-   31 sentencias: sentencias . sentencia
-   85 bloque-o-sentencia: LKEY sentencias . RKEY
+   52 sa: pi ASIG o • PYC
+   60 o: o • OR a
 
-    ID      shift, and go to state 62
-    IF      shift, and go to state 63
-    WHILE   shift, and go to state 64
-    DO      shift, and go to state 65
-    PRINT   shift, and go to state 66
-    SCAN    shift, and go to state 67
-    BREAK   shift, and go to state 68
-    RETURN  shift, and go to state 69
-    RKEY    shift, and go to state 140
-
-    sentencia   go to state 108
-    sentIf      go to state 73
-    sentWhile   go to state 74
-    sentDo      go to state 75
-    sentAsig    go to state 76
-    parte-izq   go to state 77
-    sentPutw    go to state 78
-    sentPuts    go to state 79
-    sentScan    go to state 80
-    sentBreak   go to state 81
-    sentReturn  go to state 82
+    PYC  shift, and go to state 140
+    OR   shift, and go to state 121
 
 
 State 116
 
-   45 sentDo: DO bloque-o-sentencia WHILE . LPAR expresion RPAR
+   13 dcl1: LPAR la RPAR LKEY dls bqs RKEY •
 
-    LPAR  shift, and go to state 141
+    $default  reduce using rule 13 (dcl1)
 
 
 State 117
 
-   50 sentPuts: PRINT LPAR CADENA . RPAR PYC
+   84 f: ID PUNTO • ID
 
-    RPAR  shift, and go to state 142
+    ID  shift, and go to state 141
 
 
 State 118
 
-   49 sentPutw: PRINT LPAR expresion . RPAR PYC
-   55 expresion: expresion . OR a
+   83 f: ID LPAR • lps RPAR
 
-    OR    shift, and go to state 125
-    RPAR  shift, and go to state 143
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
+
+    $default  reduce using rule 87 (lps)
+
+    o    go to state 142
+    a    go to state 102
+    i    go to state 103
+    r    go to state 104
+    mm   go to state 105
+    md   go to state 106
+    n    go to state 107
+    f    go to state 108
+    lps  go to state 143
+    pas  go to state 144
+    pa   go to state 145
 
 
 State 119
 
-   51 sentScan: SCAN LPAR ID . RPAR PYC
+   78 n: NOT n •
 
-    RPAR  shift, and go to state 144
+    $default  reduce using rule 78 (n)
 
 
 State 120
 
-   79 f: ID PUNTO . ID
+   60 o: o • OR a
+   80 f: LPAR o • RPAR
 
-    ID  shift, and go to state 145
+    OR    shift, and go to state 121
+    RPAR  shift, and go to state 146
 
 
 State 121
 
-   78 f: ID LPAR . lista_params RPAR
+   60 o: o OR • a
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
-    expresion     go to state 146
-    a             go to state 100
-    i             go to state 101
-    r             go to state 102
-    mm            go to state 103
-    md            go to state 104
-    n             go to state 105
-    f             go to state 106
-    lista_params  go to state 147
-    params        go to state 148
-    param         go to state 149
+    a   go to state 147
+    i   go to state 103
+    r   go to state 104
+    mm  go to state 105
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 122
 
-   73 n: NOT n .
+   48 si: IF LPAR o RPAR • bos ELSE bos
+   49   | IF LPAR o RPAR • bos
 
-    $default  reduce using rule 73 (n)
+    ID      shift, and go to state 59
+    IF      shift, and go to state 60
+    WHILE   shift, and go to state 61
+    DO      shift, and go to state 62
+    PRINT   shift, and go to state 63
+    SCAN    shift, and go to state 64
+    BREAK   shift, and go to state 65
+    RETURN  shift, and go to state 66
+    LKEY    shift, and go to state 84
+
+    s    go to state 85
+    si   go to state 70
+    sw   go to state 71
+    sd   go to state 72
+    sa   go to state 73
+    pi   go to state 74
+    spw  go to state 75
+    sps  go to state 76
+    ssc  go to state 77
+    sb   go to state 78
+    sr   go to state 79
+    bos  go to state 148
 
 
 State 123
 
-   55 expresion: expresion . OR a
-   75 f: LPAR expresion . RPAR
+   62 a: a AND • i
 
-    OR    shift, and go to state 125
-    RPAR  shift, and go to state 150
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
+
+    i   go to state 149
+    r   go to state 104
+    mm  go to state 105
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 124
 
-   54 sentReturn: RETURN expresion PYC .
+   64 i: i IGUAL • r
 
-    $default  reduce using rule 54 (sentReturn)
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
+
+    r   go to state 150
+    mm  go to state 105
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 125
 
-   55 expresion: expresion OR . a
+   65 i: i DIF • r
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
-    a   go to state 151
-    i   go to state 101
-    r   go to state 102
-    mm  go to state 103
-    md  go to state 104
-    n   go to state 105
-    f   go to state 106
+    r   go to state 151
+    mm  go to state 105
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 126
 
-   57 a: a AND . i
+   67 r: r MENOR • mm
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
-    i   go to state 152
-    r   go to state 102
-    mm  go to state 103
-    md  go to state 104
-    n   go to state 105
-    f   go to state 106
+    mm  go to state 152
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 127
 
-   59 i: i IGUAL . r
+   69 r: r MAYOR • mm
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
-    r   go to state 153
-    mm  go to state 103
-    md  go to state 104
-    n   go to state 105
-    f   go to state 106
+    mm  go to state 153
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 128
 
-   60 i: i DIF . r
+   68 r: r MENORI • mm
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
-    r   go to state 154
-    mm  go to state 103
-    md  go to state 104
-    n   go to state 105
-    f   go to state 106
+    mm  go to state 154
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 129
 
-   62 r: r MENOR . mm
+   70 r: r MAYORI • mm
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
     mm  go to state 155
-    md  go to state 104
-    n   go to state 105
-    f   go to state 106
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 130
 
-   64 r: r MAYOR . mm
+   72 mm: mm MAS • md
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
-    mm  go to state 156
-    md  go to state 104
-    n   go to state 105
-    f   go to state 106
+    md  go to state 156
+    n   go to state 107
+    f   go to state 108
 
 
 State 131
 
-   63 r: r MENORI . mm
+   73 mm: mm MENOS • md
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
-    mm  go to state 157
-    md  go to state 104
-    n   go to state 105
-    f   go to state 106
+    md  go to state 157
+    n   go to state 107
+    f   go to state 108
 
 
 State 132
 
-   65 r: r MAYORI . mm
+   76 md: md MUL • n
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
-    mm  go to state 158
-    md  go to state 104
-    n   go to state 105
-    f   go to state 106
+    n  go to state 158
+    f  go to state 108
 
 
 State 133
 
-   67 mm: mm MAS . md
+   75 md: md DIV • n
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
-    md  go to state 159
-    n   go to state 105
-    f   go to state 106
+    n  go to state 159
+    f  go to state 108
 
 
 State 134
 
-   68 mm: mm MENOS . md
+   50 sw: WHILE LPAR o RPAR • bos
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
+    ID      shift, and go to state 59
+    IF      shift, and go to state 60
+    WHILE   shift, and go to state 61
+    DO      shift, and go to state 62
+    PRINT   shift, and go to state 63
+    SCAN    shift, and go to state 64
+    BREAK   shift, and go to state 65
+    RETURN  shift, and go to state 66
+    LKEY    shift, and go to state 84
 
-    md  go to state 160
-    n   go to state 105
-    f   go to state 106
+    s    go to state 85
+    si   go to state 70
+    sw   go to state 71
+    sd   go to state 72
+    sa   go to state 73
+    pi   go to state 74
+    spw  go to state 75
+    sps  go to state 76
+    ssc  go to state 77
+    sb   go to state 78
+    sr   go to state 79
+    bos  go to state 160
 
 
 State 135
 
-   71 md: md MUL . n
+   91 bos: LKEY ss RKEY •
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
-
-    n  go to state 161
-    f  go to state 106
+    $default  reduce using rule 91 (bos)
 
 
 State 136
 
-   70 md: md DIV . n
+   51 sd: DO bos WHILE LPAR • o RPAR PYC
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
 
-    n  go to state 162
-    f  go to state 106
+    o   go to state 161
+    a   go to state 102
+    i   go to state 103
+    r   go to state 104
+    mm  go to state 105
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
 
 
 State 137
 
-   46 sentAsig: parte-izq ASIG expresion . PYC
-   55 expresion: expresion . OR a
+   56 sps: PRINT LPAR CADENA RPAR • PYC
 
-    PYC  shift, and go to state 163
-    OR   shift, and go to state 125
+    PYC  shift, and go to state 162
 
 
 State 138
 
-   42 sentIf: IF LPAR expresion RPAR . bloque-o-sentencia ELSE bloque-o-sentencia
-   43       | IF LPAR expresion RPAR . bloque-o-sentencia
+   55 spw: PRINT LPAR o RPAR • PYC
 
-    ID      shift, and go to state 62
-    IF      shift, and go to state 63
-    WHILE   shift, and go to state 64
-    DO      shift, and go to state 65
-    PRINT   shift, and go to state 66
-    SCAN    shift, and go to state 67
-    BREAK   shift, and go to state 68
-    RETURN  shift, and go to state 69
-    LKEY    shift, and go to state 88
-
-    sentencia           go to state 89
-    sentIf              go to state 73
-    sentWhile           go to state 74
-    sentDo              go to state 75
-    sentAsig            go to state 76
-    parte-izq           go to state 77
-    sentPutw            go to state 78
-    sentPuts            go to state 79
-    sentScan            go to state 80
-    sentBreak           go to state 81
-    sentReturn          go to state 82
-    bloque-o-sentencia  go to state 164
+    PYC  shift, and go to state 163
 
 
 State 139
 
-   44 sentWhile: WHILE LPAR expresion RPAR . bloque-o-sentencia
+   57 ssc: SCAN LPAR ID RPAR • PYC
 
-    ID      shift, and go to state 62
-    IF      shift, and go to state 63
-    WHILE   shift, and go to state 64
-    DO      shift, and go to state 65
-    PRINT   shift, and go to state 66
-    SCAN    shift, and go to state 67
-    BREAK   shift, and go to state 68
-    RETURN  shift, and go to state 69
-    LKEY    shift, and go to state 88
-
-    sentencia           go to state 89
-    sentIf              go to state 73
-    sentWhile           go to state 74
-    sentDo              go to state 75
-    sentAsig            go to state 76
-    parte-izq           go to state 77
-    sentPutw            go to state 78
-    sentPuts            go to state 79
-    sentScan            go to state 80
-    sentBreak           go to state 81
-    sentReturn          go to state 82
-    bloque-o-sentencia  go to state 165
+    PYC  shift, and go to state 164
 
 
 State 140
 
-   85 bloque-o-sentencia: LKEY sentencias RKEY .
+   52 sa: pi ASIG o PYC •
 
-    $default  reduce using rule 85 (bloque-o-sentencia)
+    $default  reduce using rule 52 (sa)
 
 
 State 141
 
-   45 sentDo: DO bloque-o-sentencia WHILE LPAR . expresion RPAR
+   84 f: ID PUNTO ID •
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
-
-    expresion  go to state 166
-    a          go to state 100
-    i          go to state 101
-    r          go to state 102
-    mm         go to state 103
-    md         go to state 104
-    n          go to state 105
-    f          go to state 106
+    $default  reduce using rule 84 (f)
 
 
 State 142
 
-   50 sentPuts: PRINT LPAR CADENA RPAR . PYC
+   60 o: o • OR a
+   90 pa: o •
 
-    PYC  shift, and go to state 167
+    OR  shift, and go to state 121
+
+    $default  reduce using rule 90 (pa)
 
 
 State 143
 
-   49 sentPutw: PRINT LPAR expresion RPAR . PYC
+   83 f: ID LPAR lps • RPAR
 
-    PYC  shift, and go to state 168
+    RPAR  shift, and go to state 165
 
 
 State 144
 
-   51 sentScan: SCAN LPAR ID RPAR . PYC
+   86 lps: pas •
+   88 pas: pas • COMA pa
 
-    PYC  shift, and go to state 169
+    COMA  shift, and go to state 166
+
+    $default  reduce using rule 86 (lps)
 
 
 State 145
 
-   79 f: ID PUNTO ID .
+   89 pas: pa •
 
-    $default  reduce using rule 79 (f)
+    $default  reduce using rule 89 (pas)
 
 
 State 146
 
-   55 expresion: expresion . OR a
-   84 param: expresion .
+   80 f: LPAR o RPAR •
 
-    OR  shift, and go to state 125
-
-    $default  reduce using rule 84 (param)
+    $default  reduce using rule 80 (f)
 
 
 State 147
 
-   78 f: ID LPAR lista_params . RPAR
+   60 o: o OR a •
+   62 a: a • AND i
 
-    RPAR  shift, and go to state 170
+    AND  shift, and go to state 123
+
+    $default  reduce using rule 60 (o)
 
 
 State 148
 
-   81 lista_params: params .
-   82 params: params . COMA param
+   48 si: IF LPAR o RPAR bos • ELSE bos
+   49   | IF LPAR o RPAR bos •
 
-    COMA  shift, and go to state 171
+    ELSE  shift, and go to state 167
 
-    $default  reduce using rule 81 (lista_params)
+    $default  reduce using rule 49 (si)
 
 
 State 149
 
-   83 params: param .
+   62 a: a AND i •
+   64 i: i • IGUAL r
+   65  | i • DIF r
 
-    $default  reduce using rule 83 (params)
+    IGUAL  shift, and go to state 124
+    DIF    shift, and go to state 125
+
+    $default  reduce using rule 62 (a)
 
 
 State 150
 
-   75 f: LPAR expresion RPAR .
+   64 i: i IGUAL r •
+   67 r: r • MENOR mm
+   68  | r • MENORI mm
+   69  | r • MAYOR mm
+   70  | r • MAYORI mm
 
-    $default  reduce using rule 75 (f)
+    MENOR   shift, and go to state 126
+    MAYOR   shift, and go to state 127
+    MENORI  shift, and go to state 128
+    MAYORI  shift, and go to state 129
+
+    $default  reduce using rule 64 (i)
 
 
 State 151
 
-   55 expresion: expresion OR a .
-   57 a: a . AND i
+   65 i: i DIF r •
+   67 r: r • MENOR mm
+   68  | r • MENORI mm
+   69  | r • MAYOR mm
+   70  | r • MAYORI mm
 
-    AND  shift, and go to state 126
+    MENOR   shift, and go to state 126
+    MAYOR   shift, and go to state 127
+    MENORI  shift, and go to state 128
+    MAYORI  shift, and go to state 129
 
-    $default  reduce using rule 55 (expresion)
+    $default  reduce using rule 65 (i)
 
 
 State 152
 
-   57 a: a AND i .
-   59 i: i . IGUAL r
-   60  | i . DIF r
+   67 r: r MENOR mm •
+   72 mm: mm • MAS md
+   73   | mm • MENOS md
 
-    IGUAL  shift, and go to state 127
-    DIF    shift, and go to state 128
+    MAS    shift, and go to state 130
+    MENOS  shift, and go to state 131
 
-    $default  reduce using rule 57 (a)
+    $default  reduce using rule 67 (r)
 
 
 State 153
 
-   59 i: i IGUAL r .
-   62 r: r . MENOR mm
-   63  | r . MENORI mm
-   64  | r . MAYOR mm
-   65  | r . MAYORI mm
+   69 r: r MAYOR mm •
+   72 mm: mm • MAS md
+   73   | mm • MENOS md
 
-    MENOR   shift, and go to state 129
-    MAYOR   shift, and go to state 130
-    MENORI  shift, and go to state 131
-    MAYORI  shift, and go to state 132
+    MAS    shift, and go to state 130
+    MENOS  shift, and go to state 131
 
-    $default  reduce using rule 59 (i)
+    $default  reduce using rule 69 (r)
 
 
 State 154
 
-   60 i: i DIF r .
-   62 r: r . MENOR mm
-   63  | r . MENORI mm
-   64  | r . MAYOR mm
-   65  | r . MAYORI mm
+   68 r: r MENORI mm •
+   72 mm: mm • MAS md
+   73   | mm • MENOS md
 
-    MENOR   shift, and go to state 129
-    MAYOR   shift, and go to state 130
-    MENORI  shift, and go to state 131
-    MAYORI  shift, and go to state 132
+    MAS    shift, and go to state 130
+    MENOS  shift, and go to state 131
 
-    $default  reduce using rule 60 (i)
+    $default  reduce using rule 68 (r)
 
 
 State 155
 
-   62 r: r MENOR mm .
-   67 mm: mm . MAS md
-   68   | mm . MENOS md
+   70 r: r MAYORI mm •
+   72 mm: mm • MAS md
+   73   | mm • MENOS md
 
-    MAS    shift, and go to state 133
-    MENOS  shift, and go to state 134
+    MAS    shift, and go to state 130
+    MENOS  shift, and go to state 131
 
-    $default  reduce using rule 62 (r)
+    $default  reduce using rule 70 (r)
 
 
 State 156
 
-   64 r: r MAYOR mm .
-   67 mm: mm . MAS md
-   68   | mm . MENOS md
+   72 mm: mm MAS md •
+   75 md: md • DIV n
+   76   | md • MUL n
 
-    MAS    shift, and go to state 133
-    MENOS  shift, and go to state 134
+    MUL  shift, and go to state 132
+    DIV  shift, and go to state 133
 
-    $default  reduce using rule 64 (r)
+    $default  reduce using rule 72 (mm)
 
 
 State 157
 
-   63 r: r MENORI mm .
-   67 mm: mm . MAS md
-   68   | mm . MENOS md
+   73 mm: mm MENOS md •
+   75 md: md • DIV n
+   76   | md • MUL n
 
-    MAS    shift, and go to state 133
-    MENOS  shift, and go to state 134
+    MUL  shift, and go to state 132
+    DIV  shift, and go to state 133
 
-    $default  reduce using rule 63 (r)
+    $default  reduce using rule 73 (mm)
 
 
 State 158
 
-   65 r: r MAYORI mm .
-   67 mm: mm . MAS md
-   68   | mm . MENOS md
+   76 md: md MUL n •
 
-    MAS    shift, and go to state 133
-    MENOS  shift, and go to state 134
-
-    $default  reduce using rule 65 (r)
+    $default  reduce using rule 76 (md)
 
 
 State 159
 
-   67 mm: mm MAS md .
-   70 md: md . DIV n
-   71   | md . MUL n
+   75 md: md DIV n •
 
-    MUL  shift, and go to state 135
-    DIV  shift, and go to state 136
-
-    $default  reduce using rule 67 (mm)
+    $default  reduce using rule 75 (md)
 
 
 State 160
 
-   68 mm: mm MENOS md .
-   70 md: md . DIV n
-   71   | md . MUL n
+   50 sw: WHILE LPAR o RPAR bos •
 
-    MUL  shift, and go to state 135
-    DIV  shift, and go to state 136
-
-    $default  reduce using rule 68 (mm)
+    $default  reduce using rule 50 (sw)
 
 
 State 161
 
-   71 md: md MUL n .
+   51 sd: DO bos WHILE LPAR o • RPAR PYC
+   60 o: o • OR a
 
-    $default  reduce using rule 71 (md)
+    OR    shift, and go to state 121
+    RPAR  shift, and go to state 168
 
 
 State 162
 
-   70 md: md DIV n .
+   56 sps: PRINT LPAR CADENA RPAR PYC •
 
-    $default  reduce using rule 70 (md)
+    $default  reduce using rule 56 (sps)
 
 
 State 163
 
-   46 sentAsig: parte-izq ASIG expresion PYC .
+   55 spw: PRINT LPAR o RPAR PYC •
 
-    $default  reduce using rule 46 (sentAsig)
+    $default  reduce using rule 55 (spw)
 
 
 State 164
 
-   42 sentIf: IF LPAR expresion RPAR bloque-o-sentencia . ELSE bloque-o-sentencia
-   43       | IF LPAR expresion RPAR bloque-o-sentencia .
+   57 ssc: SCAN LPAR ID RPAR PYC •
 
-    ELSE  shift, and go to state 172
-
-    $default  reduce using rule 43 (sentIf)
+    $default  reduce using rule 57 (ssc)
 
 
 State 165
 
-   44 sentWhile: WHILE LPAR expresion RPAR bloque-o-sentencia .
+   83 f: ID LPAR lps RPAR •
 
-    $default  reduce using rule 44 (sentWhile)
+    $default  reduce using rule 83 (f)
 
 
 State 166
 
-   45 sentDo: DO bloque-o-sentencia WHILE LPAR expresion . RPAR
-   55 expresion: expresion . OR a
+   88 pas: pas COMA • pa
 
-    OR    shift, and go to state 125
-    RPAR  shift, and go to state 173
+    ID        shift, and go to state 96
+    NUMERO    shift, and go to state 97
+    CARACTER  shift, and go to state 98
+    NOT       shift, and go to state 99
+    LPAR      shift, and go to state 100
+
+    o   go to state 142
+    a   go to state 102
+    i   go to state 103
+    r   go to state 104
+    mm  go to state 105
+    md  go to state 106
+    n   go to state 107
+    f   go to state 108
+    pa  go to state 169
 
 
 State 167
 
-   50 sentPuts: PRINT LPAR CADENA RPAR PYC .
+   48 si: IF LPAR o RPAR bos ELSE • bos
 
-    $default  reduce using rule 50 (sentPuts)
+    ID      shift, and go to state 59
+    IF      shift, and go to state 60
+    WHILE   shift, and go to state 61
+    DO      shift, and go to state 62
+    PRINT   shift, and go to state 63
+    SCAN    shift, and go to state 64
+    BREAK   shift, and go to state 65
+    RETURN  shift, and go to state 66
+    LKEY    shift, and go to state 84
+
+    s    go to state 85
+    si   go to state 70
+    sw   go to state 71
+    sd   go to state 72
+    sa   go to state 73
+    pi   go to state 74
+    spw  go to state 75
+    sps  go to state 76
+    ssc  go to state 77
+    sb   go to state 78
+    sr   go to state 79
+    bos  go to state 170
 
 
 State 168
 
-   49 sentPutw: PRINT LPAR expresion RPAR PYC .
+   51 sd: DO bos WHILE LPAR o RPAR • PYC
 
-    $default  reduce using rule 49 (sentPutw)
+    PYC  shift, and go to state 171
 
 
 State 169
 
-   51 sentScan: SCAN LPAR ID RPAR PYC .
+   88 pas: pas COMA pa •
 
-    $default  reduce using rule 51 (sentScan)
+    $default  reduce using rule 88 (pas)
 
 
 State 170
 
-   78 f: ID LPAR lista_params RPAR .
+   48 si: IF LPAR o RPAR bos ELSE bos •
 
-    $default  reduce using rule 78 (f)
+    $default  reduce using rule 48 (si)
 
 
 State 171
 
-   82 params: params COMA . param
+   51 sd: DO bos WHILE LPAR o RPAR PYC •
 
-    ID        shift, and go to state 93
-    NUMERO    shift, and go to state 94
-    CARACTER  shift, and go to state 95
-    NOT       shift, and go to state 97
-    LPAR      shift, and go to state 98
-
-    expresion  go to state 146
-    a          go to state 100
-    i          go to state 101
-    r          go to state 102
-    mm         go to state 103
-    md         go to state 104
-    n          go to state 105
-    f          go to state 106
-    param      go to state 174
-
-
-State 172
-
-   42 sentIf: IF LPAR expresion RPAR bloque-o-sentencia ELSE . bloque-o-sentencia
-
-    ID      shift, and go to state 62
-    IF      shift, and go to state 63
-    WHILE   shift, and go to state 64
-    DO      shift, and go to state 65
-    PRINT   shift, and go to state 66
-    SCAN    shift, and go to state 67
-    BREAK   shift, and go to state 68
-    RETURN  shift, and go to state 69
-    LKEY    shift, and go to state 88
-
-    sentencia           go to state 89
-    sentIf              go to state 73
-    sentWhile           go to state 74
-    sentDo              go to state 75
-    sentAsig            go to state 76
-    parte-izq           go to state 77
-    sentPutw            go to state 78
-    sentPuts            go to state 79
-    sentScan            go to state 80
-    sentBreak           go to state 81
-    sentReturn          go to state 82
-    bloque-o-sentencia  go to state 175
-
-
-State 173
-
-   45 sentDo: DO bloque-o-sentencia WHILE LPAR expresion RPAR .
-
-    $default  reduce using rule 45 (sentDo)
-
-
-State 174
-
-   82 params: params COMA param .
-
-    $default  reduce using rule 82 (params)
-
-
-State 175
-
-   42 sentIf: IF LPAR expresion RPAR bloque-o-sentencia ELSE bloque-o-sentencia .
-
-    $default  reduce using rule 42 (sentIf)
+    $default  reduce using rule 51 (sd)

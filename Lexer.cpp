@@ -1,6 +1,6 @@
-#line 1 "Lexer.cpp"
+#line 2 "Lexer.cpp"
 
-#line 3 "Lexer.cpp"
+#line 4 "Lexer.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -487,9 +487,7 @@ static const flex_int16_t yy_chk[204] =
 
 	using namespace std;
 
-	#include "Tokens.h"
 	#include "Lexer.h"
-	#include "parser.tab.hh"
 
 	#undef YY_DECL
 	#define YY_DECL int Lexer::yylex(yy::Parser::semantic_type* const lval, yy::Parser::location_type *location)
@@ -501,8 +499,8 @@ static const flex_int16_t yy_chk[204] =
 	int numType;
 	//variable para contar líneas
 	int line = 1;
+#line 503 "Lexer.cpp"
 #line 504 "Lexer.cpp"
-#line 505 "Lexer.cpp"
 
 #define INITIAL 0
 
@@ -634,18 +632,18 @@ YY_DECL
 		}
 
 	{
-#line 36 "lexer.ll"
+#line 34 "lexer.ll"
 
 
 
  
-#line 41 "lexer.ll"
+#line 39 "lexer.ll"
 	//Codigo ejecutado al inicio de yylex
 	yylval = lval;
 
 
 
-#line 648 "Lexer.cpp"
+#line 647 "Lexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -704,237 +702,250 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 46 "lexer.ll"
-{return CHAR;}
+#line 44 "lexer.ll"
+{return token::CHAR;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 47 "lexer.ll"
-{return INT; }
+#line 45 "lexer.ll"
+{return token::INT; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 49 "lexer.ll"
-{return FLOAT; }
+#line 47 "lexer.ll"
+{return token::FLOAT; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 50 "lexer.ll"
-{return DOUBLE; }
+#line 48 "lexer.ll"
+{return token::DOUBLE; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 52 "lexer.ll"
-{return STRUCT;}
+#line 50 "lexer.ll"
+{return token::STRUCT;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 53 "lexer.ll"
-{return VOID;}
+#line 51 "lexer.ll"
+{return token::VOID;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 55 "lexer.ll"
-{return IF;}
+#line 53 "lexer.ll"
+{return token::IF;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 56 "lexer.ll"
-{return ELSE;}
+#line 54 "lexer.ll"
+{return token::ELSE;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 57 "lexer.ll"
-{return WHILE;}
+#line 55 "lexer.ll"
+{return token::WHILE;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 58 "lexer.ll"
-{return DO;}
+#line 56 "lexer.ll"
+{return token::DO;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 59 "lexer.ll"
-{return PRINT;}
+#line 57 "lexer.ll"
+{return token::PRINT;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 60 "lexer.ll"
-{return SCAN;}
+#line 58 "lexer.ll"
+{return token::SCAN;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 61 "lexer.ll"
-{return BREAK;}
+#line 59 "lexer.ll"
+{return token::BREAK;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 62 "lexer.ll"
-{return RETURN;}
+#line 60 "lexer.ll"
+{return token::RETURN;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 64 "lexer.ll"
-{return LKEY;}
+#line 62 "lexer.ll"
+{return token::LKEY;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 65 "lexer.ll"
-{return RKEY;}
+#line 63 "lexer.ll"
+{return token::RKEY;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 66 "lexer.ll"
-{return LPAR;}
+#line 64 "lexer.ll"
+{return token::LPAR;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 67 "lexer.ll"
-{return RPAR;}
+#line 65 "lexer.ll"
+{return token::RPAR;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 68 "lexer.ll"
-{return MAS;}
+#line 66 "lexer.ll"
+{return token::MAS;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 69 "lexer.ll"
-{return MENOS;}
+#line 67 "lexer.ll"
+{return token::MENOS;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 70 "lexer.ll"
-{return MUL;}
+#line 68 "lexer.ll"
+{return token::MUL;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 71 "lexer.ll"
-{return DIV;}
+#line 69 "lexer.ll"
+{return token::DIV;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 72 "lexer.ll"
-{return OR;}
+#line 70 "lexer.ll"
+{return token::OR;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 73 "lexer.ll"
-{return AND;}
+#line 71 "lexer.ll"
+{return token::AND;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 74 "lexer.ll"
-{return NOT;}
+#line 72 "lexer.ll"
+{return token::NOT;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 75 "lexer.ll"
-{return MENOR;}
+#line 73 "lexer.ll"
+{return token::MENOR;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 76 "lexer.ll"
-{return MAYOR;}
+#line 74 "lexer.ll"
+{return token::MAYOR;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 77 "lexer.ll"
-{return IGUAL;}
+#line 75 "lexer.ll"
+{return token::IGUAL;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 78 "lexer.ll"
-{return DIF;}
+#line 76 "lexer.ll"
+{return token::DIF;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 79 "lexer.ll"
-{return MENORI;}
+#line 77 "lexer.ll"
+{return token::MENORI;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 80 "lexer.ll"
-{return MAYORI;}
+#line 78 "lexer.ll"
+{return token::MAYORI;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 81 "lexer.ll"
-{return ASIG;}
+#line 79 "lexer.ll"
+{return token::ASIG;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 83 "lexer.ll"
-{return PYC;}
+#line 81 "lexer.ll"
+{return token::PYC;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 84 "lexer.ll"
-{return COMA;}
+#line 82 "lexer.ll"
+{return token::COMA;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 85 "lexer.ll"
-{return PUNTO;}
+#line 83 "lexer.ll"
+{return token::PUNTO;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 87 "lexer.ll"
+#line 85 "lexer.ll"
 { 	numType = 1;
-				return NUMERO;}
+				yylval->build<std::string>(yytext);
+				return token::NUMERO;
+			}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 89 "lexer.ll"
+#line 90 "lexer.ll"
 {	numType = 2;
-				return NUMERO;}
+				yylval->build<std::string>(yytext);
+				return token::NUMERO;
+			}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 91 "lexer.ll"
+#line 95 "lexer.ll"
 {	numType = 3;
-				return NUMERO;}
+				yylval->build<std::string>(yytext);
+				return token::NUMERO;
+			}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 94 "lexer.ll"
-{return ID;}
+#line 100 "lexer.ll"
+{
+				yylval->build<std::string>(yytext);
+				return token::ID;
+			}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 96 "lexer.ll"
+#line 105 "lexer.ll"
 {	numType = 5;
-				return CADENA;}
+				yylval->build<std::string>(yytext);
+				return token::CADENA;
+			}
 	YY_BREAK
 case 41:
 /* rule 41 can match eol */
 YY_RULE_SETUP
-#line 98 "lexer.ll"
+#line 110 "lexer.ll"
 {	numType = 4;
-				return CARACTER;}
+				yylval->build<std::string>(yytext);
+				return token::CARACTER;
+			}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 101 "lexer.ll"
+#line 115 "lexer.ll"
 {}
 	YY_BREAK
 case 43:
 /* rule 43 can match eol */
 YY_RULE_SETUP
-#line 102 "lexer.ll"
+#line 116 "lexer.ll"
 {line++;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 103 "lexer.ll"
+#line 117 "lexer.ll"
 {cout<<"ERROR LEXICO " << yytext << endl;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 105 "lexer.ll"
+#line 119 "lexer.ll"
 ECHO;
 	YY_BREAK
-#line 937 "Lexer.cpp"
+#line 949 "Lexer.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1897,7 +1908,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 105 "lexer.ll"
+#line 119 "lexer.ll"
 
 
 int yyFlexLexer::yywrap(){

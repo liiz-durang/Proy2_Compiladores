@@ -1,17 +1,16 @@
 #ifndef __DRIVER_H__
 #define __DRIVER_H__
 
-#include <vector>
+
 using namespace std;
 
-
-/*
-#include "TypeTab.hpp"
-#include "SymTab.hpp"
-#include "Quad.hpp"
-#include "SymbolTypes.hpp"
-#include "Generator.hpp"
-#include "Pila.hpp" */
+#include <string>
+#include <map>
+#include <stack>
+#include <vector>
+#include "SimbolosTabla.h"
+#include "TiposTabla.h"
+#include "Pila.h"
 #include "Lexer.h"
 #include "parser.tab.hh"
 
@@ -25,6 +24,8 @@ private:
     int numType;
     int gType;
     int cteF;
+    string gId;
+    Pila pilaSimbolos;
     //SymTab ts;
     //TypeTab tt;
     //vector<Quad> icode;
@@ -32,8 +33,8 @@ private:
     //Generator gen;
     //Pila<int> labelStack;
 
-    Lexer *lexer;
-    yy::Parser *parser;
+    Lexer *lexer=nullptr;
+    yy::Parser *parser =nullptr;
 public:
     Driver(/* args */);
     Driver(string file);
@@ -41,6 +42,7 @@ public:
 
     void setFile(string file);
     void setType(int type);
+    void setId(string id);
 
     void pushLabel(int label);
     void popLabel();
@@ -81,7 +83,21 @@ public:
 
     void parse(const string& file);
     void parse_helper(istream &stream);
+
+    int getGtype();
+    string getId();
+
+    Pila getPilaTSimbolos();
+
+    int getDir();
+
+    void printTable();
+
+    void pushTablaSimbolos();
+
+
 };
+
 
 
 

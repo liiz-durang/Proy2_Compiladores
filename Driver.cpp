@@ -11,6 +11,7 @@ Driver::Driver()
     numTemp = 0;
     dir= 0;
     cteF = 0;
+    pilaSimbolos = Pila();
 }
 
 Driver::~Driver()
@@ -60,4 +61,48 @@ void Driver::parse_helper(istream &stream)
         std::cerr << "¡Error de sintaxis!\n";
     }
     return;
+}
+
+void Driver:: setType(int type){
+    gType = type;
+}
+
+int Driver::getGtype(){
+    return gType;
+}
+
+void Driver:: setId(string id){
+    gId = id;
+}
+
+string Driver:: getId(){
+    return gId;
+}
+
+Pila Driver:: getPilaTSimbolos(){
+    return pilaSimbolos;
+}
+
+int Driver::getDir(){
+    return dir;
+}
+
+void Driver::addSym(string id, int type, string cat){
+    cout << "Función addSym de driver" << endl;
+    getPilaTSimbolos().lookTop()->printTable();
+    cout << "Función addSym de driver2" << endl;
+    cout << getPilaTSimbolos().lookTop()->is_in(getId()) << endl;
+    if (getPilaTSimbolos().lookTop()->is_in(getId()) == false) {
+        cout << "Se agregará el simbolo a la tabla de simbolos" << endl;
+        getPilaTSimbolos().lookTop()->addSimbolo(getId(),Simbolo(getDir(),getGtype(),"variable"));
+    }
+}
+
+void Driver::printTable(){
+    getPilaTSimbolos().printPilaSimbolos();
+}
+
+void Driver::pushTablaSimbolos(){
+    cout << "Función pushTablaSimbolos de Driver" << endl;
+    getPilaTSimbolos().push(new SimbolosTabla());
 }

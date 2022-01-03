@@ -49,7 +49,9 @@
 
 #include "Expresion.h"
 #include "Numero.h"
-#include "Tokens.h"
+#include "SimbolosTabla.h"
+#include "TiposTabla.h"
+#include "Simbolo.h"
 
     class Driver;
     class Lexer;
@@ -64,7 +66,7 @@
 # endif
 
 
-#line 68 "parser.tab.hh"
+#line 70 "parser.tab.hh"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -204,7 +206,7 @@
 #endif
 
 namespace yy {
-#line 208 "parser.tab.hh"
+#line 210 "parser.tab.hh"
 
 
 
@@ -423,7 +425,7 @@ namespace yy {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
-      // expresion
+      // o
       // a
       // i
       // r
@@ -435,6 +437,10 @@ namespace yy {
 
       // tipo
       char dummy2[sizeof (int)];
+
+      // ID
+      // NUMERO
+      char dummy3[sizeof (std::string)];
     };
 
     /// The size of the largest semantic type.
@@ -504,29 +510,28 @@ namespace yy {
     DOUBLE = 272,                  // DOUBLE
     STRUCT = 273,                  // STRUCT
     VOID = 274,                    // VOID
-    ESP = 275,                     // ESP
-    LKEY = 276,                    // LKEY
-    RKEY = 277,                    // RKEY
-    PYC = 278,                     // PYC
-    COMA = 279,                    // COMA
-    PUNTO = 280,                   // PUNTO
-    ASIG = 281,                    // ASIG
-    AND = 282,                     // AND
-    OR = 283,                      // OR
-    IGUAL = 284,                   // IGUAL
-    DIF = 285,                     // DIF
-    MENOR = 286,                   // MENOR
-    MAYOR = 287,                   // MAYOR
-    MENORI = 288,                  // MENORI
-    MAYORI = 289,                  // MAYORI
-    MAS = 290,                     // MAS
-    MENOS = 291,                   // MENOS
-    MUL = 292,                     // MUL
-    DIV = 293,                     // DIV
-    NOT = 294,                     // NOT
-    LPAR = 295,                    // LPAR
-    RPAR = 296,                    // RPAR
-    ELSE = 297                     // ELSE
+    LKEY = 275,                    // LKEY
+    RKEY = 276,                    // RKEY
+    PYC = 277,                     // PYC
+    COMA = 278,                    // COMA
+    PUNTO = 279,                   // PUNTO
+    ASIG = 280,                    // ASIG
+    AND = 281,                     // AND
+    OR = 282,                      // OR
+    IGUAL = 283,                   // IGUAL
+    DIF = 284,                     // DIF
+    MENOR = 285,                   // MENOR
+    MAYOR = 286,                   // MAYOR
+    MENORI = 287,                  // MENORI
+    MAYORI = 288,                  // MAYORI
+    MAS = 289,                     // MAS
+    MENOS = 290,                   // MENOS
+    MUL = 291,                     // MUL
+    DIV = 292,                     // DIV
+    NOT = 293,                     // NOT
+    LPAR = 294,                    // LPAR
+    RPAR = 295,                    // RPAR
+    ELSE = 296                     // ELSE
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -543,7 +548,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 43, ///< Number of tokens.
+        YYNTOKENS = 42, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -565,71 +570,76 @@ namespace yy {
         S_DOUBLE = 17,                           // DOUBLE
         S_STRUCT = 18,                           // STRUCT
         S_VOID = 19,                             // VOID
-        S_ESP = 20,                              // ESP
-        S_LKEY = 21,                             // LKEY
-        S_RKEY = 22,                             // RKEY
-        S_PYC = 23,                              // PYC
-        S_COMA = 24,                             // COMA
-        S_PUNTO = 25,                            // PUNTO
-        S_ASIG = 26,                             // ASIG
-        S_AND = 27,                              // AND
-        S_OR = 28,                               // OR
-        S_IGUAL = 29,                            // IGUAL
-        S_DIF = 30,                              // DIF
-        S_MENOR = 31,                            // MENOR
-        S_MAYOR = 32,                            // MAYOR
-        S_MENORI = 33,                           // MENORI
-        S_MAYORI = 34,                           // MAYORI
-        S_MAS = 35,                              // MAS
-        S_MENOS = 36,                            // MENOS
-        S_MUL = 37,                              // MUL
-        S_DIV = 38,                              // DIV
-        S_NOT = 39,                              // NOT
-        S_LPAR = 40,                             // LPAR
-        S_RPAR = 41,                             // RPAR
-        S_ELSE = 42,                             // ELSE
-        S_YYACCEPT = 43,                         // $accept
-        S_programa = 44,                         // programa
-        S_declaraciones = 45,                    // declaraciones
-        S_declaracion = 46,                      // declaracion
-        S_dcl1 = 47,                             // dcl1
-        S_dcl2 = 48,                             // dcl2
-        S_dcl3 = 49,                             // dcl3
-        S_50_decl_var = 50,                      // decl-var
-        S_51_lista_var = 51,                     // lista-var
-        S_tipo = 52,                             // tipo
-        S_53_decl_struct = 53,                   // decl-struct
-        S_54_body_struct = 54,                   // body-struct
-        S_55_lista_args = 55,                    // lista-args
-        S_args = 56,                             // args
-        S_arg = 57,                              // arg
-        S_58_decl_locales = 58,                  // decl-locales
-        S_59_decl_local = 59,                    // decl-local
-        S_60_bloque_sentencias = 60,             // bloque-sentencias
-        S_sentencias = 61,                       // sentencias
-        S_sentencia = 62,                        // sentencia
-        S_sentIf = 63,                           // sentIf
-        S_sentWhile = 64,                        // sentWhile
-        S_sentDo = 65,                           // sentDo
-        S_sentAsig = 66,                         // sentAsig
-        S_67_parte_izq = 67,                     // parte-izq
-        S_sentPutw = 68,                         // sentPutw
-        S_sentPuts = 69,                         // sentPuts
-        S_sentScan = 70,                         // sentScan
-        S_sentBreak = 71,                        // sentBreak
-        S_sentReturn = 72,                       // sentReturn
-        S_expresion = 73,                        // expresion
-        S_a = 74,                                // a
-        S_i = 75,                                // i
-        S_r = 76,                                // r
-        S_mm = 77,                               // mm
-        S_md = 78,                               // md
-        S_n = 79,                                // n
-        S_f = 80,                                // f
-        S_lista_params = 81,                     // lista_params
-        S_params = 82,                           // params
-        S_param = 83,                            // param
-        S_84_bloque_o_sentencia = 84             // bloque-o-sentencia
+        S_LKEY = 20,                             // LKEY
+        S_RKEY = 21,                             // RKEY
+        S_PYC = 22,                              // PYC
+        S_COMA = 23,                             // COMA
+        S_PUNTO = 24,                            // PUNTO
+        S_ASIG = 25,                             // ASIG
+        S_AND = 26,                              // AND
+        S_OR = 27,                               // OR
+        S_IGUAL = 28,                            // IGUAL
+        S_DIF = 29,                              // DIF
+        S_MENOR = 30,                            // MENOR
+        S_MAYOR = 31,                            // MAYOR
+        S_MENORI = 32,                           // MENORI
+        S_MAYORI = 33,                           // MAYORI
+        S_MAS = 34,                              // MAS
+        S_MENOS = 35,                            // MENOS
+        S_MUL = 36,                              // MUL
+        S_DIV = 37,                              // DIV
+        S_NOT = 38,                              // NOT
+        S_LPAR = 39,                             // LPAR
+        S_RPAR = 40,                             // RPAR
+        S_ELSE = 41,                             // ELSE
+        S_YYACCEPT = 42,                         // $accept
+        S_p = 43,                                // p
+        S_44_1 = 44,                             // $@1
+        S_dd = 45,                               // dd
+        S_d = 46,                                // d
+        S_47_2 = 47,                             // $@2
+        S_48_3 = 48,                             // $@3
+        S_49_4 = 49,                             // $@4
+        S_50_5 = 50,                             // $@5
+        S_dcl1 = 51,                             // dcl1
+        S_dcl2 = 52,                             // dcl2
+        S_dcl3 = 53,                             // dcl3
+        S_dv = 54,                               // dv
+        S_lv = 55,                               // lv
+        S_lv_ = 56,                              // lv_
+        S_tipo = 57,                             // tipo
+        S_ds = 58,                               // ds
+        S_bs = 59,                               // bs
+        S_la = 60,                               // la
+        S_as = 61,                               // as
+        S_ar = 62,                               // ar
+        S_dls = 63,                              // dls
+        S_dl = 64,                               // dl
+        S_bqs = 65,                              // bqs
+        S_ss = 66,                               // ss
+        S_s = 67,                                // s
+        S_si = 68,                               // si
+        S_sw = 69,                               // sw
+        S_sd = 70,                               // sd
+        S_sa = 71,                               // sa
+        S_pi = 72,                               // pi
+        S_spw = 73,                              // spw
+        S_sps = 74,                              // sps
+        S_ssc = 75,                              // ssc
+        S_sb = 76,                               // sb
+        S_sr = 77,                               // sr
+        S_o = 78,                                // o
+        S_a = 79,                                // a
+        S_i = 80,                                // i
+        S_r = 81,                                // r
+        S_mm = 82,                               // mm
+        S_md = 83,                               // md
+        S_n = 84,                                // n
+        S_f = 85,                                // f
+        S_lps = 86,                              // lps
+        S_pas = 87,                              // pas
+        S_pa = 88,                               // pa
+        S_bos = 89                               // bos
       };
     };
 
@@ -666,7 +676,7 @@ namespace yy {
       {
         switch (this->kind ())
     {
-      case symbol_kind::S_expresion: // expresion
+      case symbol_kind::S_o: // o
       case symbol_kind::S_a: // a
       case symbol_kind::S_i: // i
       case symbol_kind::S_r: // r
@@ -679,6 +689,11 @@ namespace yy {
 
       case symbol_kind::S_tipo: // tipo
         value.move< int > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_ID: // ID
+      case symbol_kind::S_NUMERO: // NUMERO
+        value.move< std::string > (std::move (that.value));
         break;
 
       default:
@@ -732,6 +747,20 @@ namespace yy {
       {}
 #endif
 
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::string&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::string& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
       /// Destroy the symbol.
       ~basic_symbol ()
       {
@@ -756,7 +785,7 @@ namespace yy {
         // Value type destructor.
 switch (yykind)
     {
-      case symbol_kind::S_expresion: // expresion
+      case symbol_kind::S_o: // o
       case symbol_kind::S_a: // a
       case symbol_kind::S_i: // i
       case symbol_kind::S_r: // r
@@ -769,6 +798,11 @@ switch (yykind)
 
       case symbol_kind::S_tipo: // tipo
         value.template destroy< int > ();
+        break;
+
+      case symbol_kind::S_ID: // ID
+      case symbol_kind::S_NUMERO: // NUMERO
+        value.template destroy< std::string > ();
         break;
 
       default:
@@ -872,7 +906,20 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::YYEOF
-                   || (token::YYerror <= tok && tok <= token::ELSE));
+                   || (token::YYerror <= tok && tok <= token::YYUNDEF)
+                   || (token::CADENA <= tok && tok <= token::ELSE));
+#endif
+      }
+#if 201103L <= YY_CPLUSPLUS
+      symbol_type (int tok, std::string v, location_type l)
+        : super_type (token_kind_type (tok), std::move (v), std::move (l))
+#else
+      symbol_type (int tok, const std::string& v, const location_type& l)
+        : super_type (token_kind_type (tok), v, l)
+#endif
+      {
+#if !defined _MSC_VER || defined __clang__
+        YY_ASSERT ((token::ID <= tok && tok <= token::NUMERO));
 #endif
       }
     };
@@ -974,31 +1021,31 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_ID (location_type l)
+      make_ID (std::string v, location_type l)
       {
-        return symbol_type (token::ID, std::move (l));
+        return symbol_type (token::ID, std::move (v), std::move (l));
       }
 #else
       static
       symbol_type
-      make_ID (const location_type& l)
+      make_ID (const std::string& v, const location_type& l)
       {
-        return symbol_type (token::ID, l);
+        return symbol_type (token::ID, v, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_NUMERO (location_type l)
+      make_NUMERO (std::string v, location_type l)
       {
-        return symbol_type (token::NUMERO, std::move (l));
+        return symbol_type (token::NUMERO, std::move (v), std::move (l));
       }
 #else
       static
       symbol_type
-      make_NUMERO (const location_type& l)
+      make_NUMERO (const std::string& v, const location_type& l)
       {
-        return symbol_type (token::NUMERO, l);
+        return symbol_type (token::NUMERO, v, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1224,21 +1271,6 @@ switch (yykind)
       make_VOID (const location_type& l)
       {
         return symbol_type (token::VOID, l);
-      }
-#endif
-#if 201103L <= YY_CPLUSPLUS
-      static
-      symbol_type
-      make_ESP (location_type l)
-      {
-        return symbol_type (token::ESP, std::move (l));
-      }
-#else
-      static
-      symbol_type
-      make_ESP (const location_type& l)
-      {
-        return symbol_type (token::ESP, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1598,7 +1630,7 @@ switch (yykind)
     /// \param yyvalue   the value to check
     static bool yy_table_value_is_error_ (int yyvalue) YY_NOEXCEPT;
 
-    static const short yypact_ninf_;
+    static const signed char yypact_ninf_;
     static const signed char yytable_ninf_;
 
     /// Convert a scanner token kind \a t to a symbol kind.
@@ -1875,9 +1907,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 206,     ///< Last index in yytable_.
-      yynnts_ = 42,  ///< Number of nonterminal symbols.
-      yyfinal_ = 17 ///< Termination state number.
+      yylast_ = 179,     ///< Last index in yytable_.
+      yynnts_ = 48,  ///< Number of nonterminal symbols.
+      yyfinal_ = 3 ///< Termination state number.
     };
 
 
@@ -1889,7 +1921,7 @@ switch (yykind)
 
 
 } // yy
-#line 1893 "parser.tab.hh"
+#line 1925 "parser.tab.hh"
 
 
 

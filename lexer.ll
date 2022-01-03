@@ -4,9 +4,7 @@
 
 	using namespace std;
 
-	#include "Tokens.h"
 	#include "Lexer.h"
-	#include "parser.tab.hh"
 
 	#undef YY_DECL
 	#define YY_DECL int Lexer::yylex(yy::Parser::semantic_type* const lval, yy::Parser::location_type *location)
@@ -42,60 +40,76 @@ CARACTER \'([\x20-\x21\x23-\xFE \t\n\r])\'
 
 %}
 
-"char"		{return CHAR;}
-"int"		{return INT; }
+"char"		{return token::CHAR;}
+"int"		{return token::INT; }
 
-"float"		{return FLOAT; }
-"double" 	{return DOUBLE; }
+"float"		{return token::FLOAT; }
+"double" 	{return token::DOUBLE; }
 
-"struct"	{return STRUCT;}
-"void"		{return VOID;}
+"struct"	{return token::STRUCT;}
+"void"		{return token::VOID;}
 
-"if"		{return IF;}
-"else"		{return ELSE;}
-"while"		{return WHILE;}
-"do"		{return DO;}
-"print"		{return PRINT;}
-"scan"		{return SCAN;}
-"break"		{return BREAK;}
-"return"	{return RETURN;}
+"if"		{return token::IF;}
+"else"		{return token::ELSE;}
+"while"		{return token::WHILE;}
+"do"		{return token::DO;}
+"print"		{return token::PRINT;}
+"scan"		{return token::SCAN;}
+"break"		{return token::BREAK;}
+"return"	{return token::RETURN;}
 
-"{"			{return LKEY;}
-"}" 		{return RKEY;}
-"(" 		{return LPAR;}
-")" 		{return RPAR;}
-"+"			{return MAS;}
-"-"			{return MENOS;}
-"*"			{return MUL;}
-"/"			{return DIV;}
-"||" 		{return OR;}
-"&&"        {return AND;}
-"!" 		{return NOT;}
-"<" 		{return MENOR;}
-">" 		{return MAYOR;}
-"=="		{return IGUAL;}
-"!="		{return DIF;}
-"<=" 		{return MENORI;}
-">=" 		{return MAYORI;}
-"="			{return ASIG;}
+"{"			{return token::LKEY;}
+"}" 		{return token::RKEY;}
+"(" 		{return token::LPAR;}
+")" 		{return token::RPAR;}
+"+"			{return token::MAS;}
+"-"			{return token::MENOS;}
+"*"			{return token::MUL;}
+"/"			{return token::DIV;}
+"||" 		{return token::OR;}
+"&&"        {return token::AND;}
+"!" 		{return token::NOT;}
+"<" 		{return token::MENOR;}
+">" 		{return token::MAYOR;}
+"=="		{return token::IGUAL;}
+"!="		{return token::DIF;}
+"<=" 		{return token::MENORI;}
+">=" 		{return token::MAYORI;}
+"="			{return token::ASIG;}
 
-";"			{return PYC;}
-","			{return COMA;}
-"." 		{return PUNTO;}
+";"			{return token::PYC;}
+","			{return token::COMA;}
+"." 		{return token::PUNTO;}
 
 {ENTERO}	{ 	numType = 1;
-				return NUMERO;}
-{FLOTANTE}	{	numType = 2;
-				return NUMERO;}
-{DOUBLE}	{	numType = 3;
-				return NUMERO;}
+				yylval->build<std::string>(yytext);
+				return token::NUMERO;
+			}
 
-{ID}		{return ID;}
+{FLOTANTE}	{	numType = 2;
+				yylval->build<std::string>(yytext);
+				return token::NUMERO;
+			}
+
+{DOUBLE}	{	numType = 3;
+				yylval->build<std::string>(yytext);
+				return token::NUMERO;
+			}
+
+{ID}		{
+				yylval->build<std::string>(yytext);
+				return token::ID;
+			}
 
 {CADENA} 	{	numType = 5;
-				return CADENA;}
+				yylval->build<std::string>(yytext);
+				return token::CADENA;
+			}
+
 {CARACTER}	{	numType = 4;
-				return CARACTER;}
+				yylval->build<std::string>(yytext);
+				return token::CARACTER;
+			}
 
 {ESP}   	{}
 "\n"    	{line++;}
