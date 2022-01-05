@@ -40,9 +40,9 @@ SimbolosTabla* Pila::pop(){
 SimbolosTabla* Pila::lookTop(){
     int tam = datos.size();
     cout << "Tamaño de la pila " << datos.size() << endl;
-    cout << "función looktop" << endl;
+    //cout << "función looktop" << endl;
     SimbolosTabla* temp = datos[tam-1];
-    cout << "función looktop2" << endl;
+    //cout << "función looktop2" << endl;
     return temp;
 }
 
@@ -50,6 +50,7 @@ SimbolosTabla* Pila::lookTop(){
 *  Ver el Fondo de la pila
 */
 SimbolosTabla* Pila::lookBottom(){
+    //cout << "Funciión lookBotton" << endl;
     return  datos[0];
 }
 

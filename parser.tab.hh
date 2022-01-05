@@ -594,52 +594,51 @@ namespace yy {
         S_ELSE = 41,                             // ELSE
         S_YYACCEPT = 42,                         // $accept
         S_p = 43,                                // p
-        S_44_1 = 44,                             // $@1
-        S_dd = 45,                               // dd
-        S_d = 46,                                // d
+        S_dd = 44,                               // dd
+        S_d = 45,                                // d
+        S_46_1 = 46,                             // $@1
         S_47_2 = 47,                             // $@2
         S_48_3 = 48,                             // $@3
         S_49_4 = 49,                             // $@4
-        S_50_5 = 50,                             // $@5
-        S_dcl1 = 51,                             // dcl1
-        S_dcl2 = 52,                             // dcl2
-        S_dcl3 = 53,                             // dcl3
-        S_dv = 54,                               // dv
-        S_lv = 55,                               // lv
-        S_lv_ = 56,                              // lv_
-        S_tipo = 57,                             // tipo
-        S_ds = 58,                               // ds
-        S_bs = 59,                               // bs
-        S_la = 60,                               // la
-        S_as = 61,                               // as
-        S_ar = 62,                               // ar
-        S_dls = 63,                              // dls
-        S_dl = 64,                               // dl
-        S_bqs = 65,                              // bqs
-        S_ss = 66,                               // ss
-        S_s = 67,                                // s
-        S_si = 68,                               // si
-        S_sw = 69,                               // sw
-        S_sd = 70,                               // sd
-        S_sa = 71,                               // sa
-        S_pi = 72,                               // pi
-        S_spw = 73,                              // spw
-        S_sps = 74,                              // sps
-        S_ssc = 75,                              // ssc
-        S_sb = 76,                               // sb
-        S_sr = 77,                               // sr
-        S_o = 78,                                // o
-        S_a = 79,                                // a
-        S_i = 80,                                // i
-        S_r = 81,                                // r
-        S_mm = 82,                               // mm
-        S_md = 83,                               // md
-        S_n = 84,                                // n
-        S_f = 85,                                // f
-        S_lps = 86,                              // lps
-        S_pas = 87,                              // pas
-        S_pa = 88,                               // pa
-        S_bos = 89                               // bos
+        S_dcl1 = 50,                             // dcl1
+        S_dcl2 = 51,                             // dcl2
+        S_dcl3 = 52,                             // dcl3
+        S_dv = 53,                               // dv
+        S_lv = 54,                               // lv
+        S_lv_ = 55,                              // lv_
+        S_tipo = 56,                             // tipo
+        S_ds = 57,                               // ds
+        S_bs = 58,                               // bs
+        S_la = 59,                               // la
+        S_as = 60,                               // as
+        S_ar = 61,                               // ar
+        S_dls = 62,                              // dls
+        S_dl = 63,                               // dl
+        S_bqs = 64,                              // bqs
+        S_ss = 65,                               // ss
+        S_s = 66,                                // s
+        S_si = 67,                               // si
+        S_sw = 68,                               // sw
+        S_sd = 69,                               // sd
+        S_sa = 70,                               // sa
+        S_pi = 71,                               // pi
+        S_spw = 72,                              // spw
+        S_sps = 73,                              // sps
+        S_ssc = 74,                              // ssc
+        S_sb = 75,                               // sb
+        S_sr = 76,                               // sr
+        S_o = 77,                                // o
+        S_a = 78,                                // a
+        S_i = 79,                                // i
+        S_r = 80,                                // r
+        S_mm = 81,                               // mm
+        S_md = 82,                               // md
+        S_n = 83,                                // n
+        S_f = 84,                                // f
+        S_lps = 85,                              // lps
+        S_pas = 86,                              // pas
+        S_pa = 87,                               // pa
+        S_bos = 88                               // bos
       };
     };
 
@@ -1665,7 +1664,7 @@ switch (yykind)
     // number is the opposite.  If YYTABLE_NINF, syntax error.
     static const unsigned char yytable_[];
 
-    static const short yycheck_[];
+    static const unsigned char yycheck_[];
 
     // YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
     // state STATE-NUM.
@@ -1907,9 +1906,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 179,     ///< Last index in yytable_.
-      yynnts_ = 48,  ///< Number of nonterminal symbols.
-      yyfinal_ = 3 ///< Termination state number.
+      yylast_ = 177,     ///< Last index in yytable_.
+      yynnts_ = 47,  ///< Number of nonterminal symbols.
+      yyfinal_ = 13 ///< Termination state number.
     };
 
 
@@ -1921,7 +1920,7 @@ switch (yykind)
 
 
 } // yy
-#line 1925 "parser.tab.hh"
+#line 1924 "parser.tab.hh"
 
 
 

@@ -59,8 +59,5 @@ string Simbolo::getCategoria()
 }
 
 void Simbolo::printSimbolo(){
-    for (int i=0; i<args.size();i++){
-        cout << args[i] << "--";
-    }
-    cout << endl;
+    cout << this->tipo << "--" << this->dir << "--" << this->cat << endl;
 }

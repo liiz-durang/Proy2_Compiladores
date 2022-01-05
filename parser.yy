@@ -73,9 +73,7 @@ using namespace std;
 %%
 
 
-p :  {
-    driver.pushTablaSimbolos();
-}dd;
+p : dd;
 
 dd:
     d dd
@@ -88,9 +86,12 @@ d:
         driver.setType($1);
         
     } ID {
-        cout << $3 << endl;
-        driver.addSym(driver.getId(),driver.getGtype(),"variable");
-        driver.printTable();        
+        //cout << $3 << endl;
+        driver.setId($3);
+        cout << "Id Global:" << driver.getId() << endl;
+        cout << "Tipo Global:" << driver.getGtype() << endl;
+
+        driver.addSym(driver.getId(),driver.getGtype(),"variable");      
     } 
     dcl1
     |
@@ -132,7 +133,6 @@ lv:
 lv_:
     COMA ID lv_ {
         driver.addSym(driver.getId(),driver.getGtype(),"variable");
-        driver.printTable();
     }
     |
     %empty
@@ -141,22 +141,22 @@ lv_:
 tipo:
     INT { 
             $$ = 1;
-            cout << "Tipo: " << $$ << endl; 
+            //cout << "Tipo: " << $$ << endl; 
         }
     |
     FLOAT { 
             $$ = 2;
-            cout << "Tipo: " << $$ << endl;
+            //cout << "Tipo: " << $$ << endl;
         }
     |
     DOUBLE {
                 $$ = 3; 
-                cout << "Tipo: " << $$ << endl;
+                //cout << "Tipo: " << $$ << endl;
             }
     |
     CHAR { 
             $$ = 4;
-            cout << "Tipo: " << $$ << endl;
+            //cout << "Tipo: " << $$ << endl;
         }
 ;
 

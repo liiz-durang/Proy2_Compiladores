@@ -25,7 +25,7 @@ private:
     int gType;
     int cteF;
     string gId;
-    Pila pilaSimbolos;
+    Pila* pilaSimbolos;
     //SymTab ts;
     //TypeTab tt;
     //vector<Quad> icode;
@@ -87,7 +87,7 @@ public:
     int getGtype();
     string getId();
 
-    Pila getPilaTSimbolos();
+    Pila* getPilaTSimbolos();
 
     int getDir();
 

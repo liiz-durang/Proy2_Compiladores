@@ -58,8 +58,11 @@ string SimbolosTabla::getCategoria(string id){
 
 void SimbolosTabla::printTable(){
     auto iterador = Tsimbolos.begin();
+    cout << "Tabla de Símbolos" << endl;
+    cout << "id--tipo--dir--categoría" << endl; 
     while(iterador != Tsimbolos.end()){
-        cout << iterador->first;
+        cout << iterador->first << "--";
         iterador->second.printSimbolo();
+        iterador++;
     }
 }
